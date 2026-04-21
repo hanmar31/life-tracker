@@ -1,0 +1,27 @@
+{
+  "name": "life-tracker",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "To make it easy for you to get started with GitLab, here's a list of recommended next steps.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server/server.js",
+    "lint": "npx eslint ./src",
+    "lint:fix": "npx eslint ./src --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.lnu.se:1dv613/student/hm223dq/workspace/life-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@lnu/eslint-config": "^1.1.10",
+    "eslint": "^8.57.1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
