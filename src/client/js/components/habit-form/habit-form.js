@@ -1,0 +1,78 @@
+/**
+ * Provides a form to create new habits.
+ */
+class HabitForm extends HTMLElement {
+  /**
+   * Creates the component and attaches a shadoW DOM.
+   */
+  constructor () {
+    super()
+    this.attachShadow({ mode: 'open' })
+  }
+
+  /**
+   * Called when the element is added to the DOM.
+   */
+  connectedCallback () {
+    this.render()
+  }
+
+  /**
+   * Renders the form UI.
+   */
+  render () {
+    const shadow = this.shadowRoot
+    shadow.replaceChildren()
+
+    const style = document.createElement('link')
+    style.rel = 'stylesheet'
+    style.href = new URL('/css/styles.css', import.meta.url)
+    shadow.appendChild(style)
+
+    const wrapper = document.createElement('div')
+
+    const input = document.createElement('input')
+    input.placeholder = 'New habit..'
+    this.input = input
+
+    const select = document.createElement('select')
+
+    const options = ['daily', 'weekly', 'monthly']
+    options.forEach(value => {
+      const option = document.createElement('option')
+      option.value = value
+      option.textContent = value
+      select.appendChild(option)
+    })
+
+    this.select = select
+
+    const button = document.createElement('button')
+    button.textContent = 'Add'
+
+    button.addEventListener('click', () => this.createHabit())
+
+    wrapper.append(input, select, button)
+    shadow.appendChild(wrapper)
+  }
+
+  /**
+   * Creates a new habit.
+   *
+   */
+  createHabit () {
+    const name = this.input.value.trim()
+    const frequency = this.select.value
+
+    if (!name) return
+
+    this.dispatchEvent(new CustomEvent('create-habit', {
+      detail: { name, frequency },
+      bubbles: true
+    }))
+
+    this.input.value = ''
+  }
+}
+
+customElements.define('habit-form', HabitForm)
