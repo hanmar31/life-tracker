@@ -57,7 +57,16 @@ class HabitForm extends HTMLElement {
 
     button.addEventListener('click', () => this.createHabit())
 
-    wrapper.append(input, select, button)
+    const backBtn = document.createElement('button')
+    backBtn.textContent = 'Back'
+
+    backBtn.addEventListener('click', () => {
+      this.dispatchEvent(new CustomEvent('go-back', {
+        bubbles: true
+      }))
+    })
+
+    wrapper.append(input, select, button, backBtn)
     shadow.appendChild(wrapper)
   }
 
