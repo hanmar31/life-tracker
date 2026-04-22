@@ -15,6 +15,4 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'API is working' })
 })
 
-console.log(path.join(__dirname, './../client'))
-
 export default app
