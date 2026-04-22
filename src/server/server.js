@@ -1,3 +1,8 @@
+/**
+ * @author Hanna Mårtensson <hm223dq@student.lnu.se>
+ * @version 1.0.0
+ */
+
 import { createServer } from 'http'
 import app from './app.js'
 

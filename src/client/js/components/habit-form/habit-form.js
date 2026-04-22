@@ -1,4 +1,9 @@
 /**
+ * @author Hanna Mårtensson <hm223dq@student.lnu.se>
+ * @version 1.0.0
+ */
+
+/**
  * Provides a form to create new habits.
  */
 class HabitForm extends HTMLElement {

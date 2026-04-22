@@ -1,4 +1,9 @@
 /**
+ * @author Hanna Mårtensson <hm223dq@student.lnu.se>
+ * @version 1.0.0
+ */
+
+/**
  * Represents a single habit item.
  */
 class HabitItem extends HTMLElement {
