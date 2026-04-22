@@ -56,6 +56,11 @@ class HabitApp extends HTMLElement {
     }
   }
 
+  /**
+   * Renders the habit list view.
+   *
+   * @param {ShadowRoot} shadow the component's shadow root
+   */
   renderListView (shadow) {
     const button = document.createElement('button')
     button.textContent = 'Create Habit'
@@ -71,6 +76,11 @@ class HabitApp extends HTMLElement {
     shadow.append(button, list)
   }
 
+  /**
+   * Renders the create habit form.
+   *
+   * @param {ShadowRoot} shadow the component's shadow root
+   */
   renderFormView (shadow) {
     const form = document.createElement('habit-form')
 
