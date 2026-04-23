@@ -18,8 +18,8 @@ class HabitApp extends HTMLElement {
     this.attachShadow({ mode: 'open' })
 
     this.habits = [
-      { id: 1, name: 'Study' },
-      { id: 2, name: 'Drink water' }
+      { id: 1, name: 'Study', completed: false },
+      { id: 2, name: 'Drink water', completed: false }
     ]
     this.view = 'list'
   }
@@ -73,6 +73,15 @@ class HabitApp extends HTMLElement {
     const list = document.createElement('habit-list')
     list.habits = this.habits
 
+    list.addEventListener('toggle-habit', (e) => {
+      const habit = this.habits.find(h => h.id === e.detail.id)
+
+      if (habit) {
+        habit.completed = !habit.completed
+        this.render()
+      }
+    })
+
     shadow.append(button, list)
   }
 
@@ -88,7 +97,8 @@ class HabitApp extends HTMLElement {
       const newHabit = {
         id: Date.now(),
         name: e.detail.name,
-        frequency: e.detail.frequency
+        frequency: e.detail.frequency,
+        completed: false
       }
 
       this.habits.push(newHabit)

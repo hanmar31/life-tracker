@@ -31,6 +31,7 @@ class HabitItem extends HTMLElement {
     shadow.replaceChildren()
 
     const name = this.dataset.name
+    const completed = this.dataset.completed === 'true'
 
     const style = document.createElement('link')
     style.rel = 'stylesheet'
@@ -39,6 +40,17 @@ class HabitItem extends HTMLElement {
 
     const li = document.createElement('li')
     li.textContent = name
+
+    if (completed) {
+      li.classList.add('done')
+    }
+
+    li.addEventListener('click', () => {
+      this.dispatchEvent(new CustomEvent('toggle-habit', {
+        detail: { id: Number(this.dataset.id) },
+        bubbles: true
+      }))
+    })
 
     shadow.appendChild(li)
   }

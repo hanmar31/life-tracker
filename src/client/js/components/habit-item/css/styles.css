@@ -1,0 +1,19 @@
+li {
+    background: white;
+    padding: 10px;
+    margin-bottom: 5px;
+    margin-right: 300px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+li:hover {
+    background: whitesmoke;
+    transition: background .2s;
+}
+
+
+li.done {
+    text-decoration: line-through;
+    opacity: 0.6;
+}

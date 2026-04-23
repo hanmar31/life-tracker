@@ -54,7 +54,16 @@ class HabitList extends HTMLElement {
     this._habits.forEach(habit => {
       const item = document.createElement('habit-item')
 
+      item.dataset.id = habit.id
       item.dataset.name = habit.name
+      item.dataset.completed = habit.completed
+
+      item.addEventListener('toggle-habit', (e) => {
+        this.dispatchEvent(new CustomEvent('toggle-habit', {
+          detail: e.detail,
+          bubbles: true
+        }))
+      })
 
       ul.appendChild(item)
     })
