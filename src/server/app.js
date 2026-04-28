@@ -9,6 +9,8 @@ import { fileURLToPath } from 'url'
 
 const app = express()
 
+const habits = []
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
@@ -18,6 +20,24 @@ app.use(express.static(path.join(__dirname, './../client')))
 
 app.get('/api/test', (req, res) => {
   res.json({ message: 'API is working' })
+})
+
+app.get('/api/habits', (req, res) => {
+  res.json(habits)
+})
+
+app.post('/api/habits', (req, res) => {
+  const { name, frequency } = req.body
+
+  const newHabit = {
+    id: Date.now(),
+    name,
+    frequency,
+    completed: false
+  }
+  habits.push(newHabit)
+
+  res.status(201).json(newHabit)
 })
 
 export default app
