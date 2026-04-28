@@ -17,17 +17,22 @@ class HabitApp extends HTMLElement {
     super()
     this.attachShadow({ mode: 'open' })
 
-    this.habits = [
-      { id: 1, name: 'Study', completed: false },
-      { id: 2, name: 'Drink water', completed: false }
-    ]
     this.view = 'list'
+  }
+
+  /**
+   * Fetches habits from the API and updates the component state.
+   */
+  async loadHabits () {
+    const res = await fetch('/api/habits')
+    this.habits = await res.json()
   }
 
   /**
    * Called when the element is added to the DOM.
    */
-  connectedCallback () {
+  async connectedCallback () {
+    await this.loadHabits()
     this.render()
   }
 
@@ -93,15 +98,19 @@ class HabitApp extends HTMLElement {
   renderFormView (shadow) {
     const form = document.createElement('habit-form')
 
-    form.addEventListener('create-habit', (e) => {
-      const newHabit = {
-        id: Date.now(),
-        name: e.detail.name,
-        frequency: e.detail.frequency,
-        completed: false
-      }
+    form.addEventListener('create-habit', async (e) => {
+      fetch('/api/habits', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: e.detail.name,
+          frequency: e.detail.frequency
+        })
+      })
 
-      this.habits.push(newHabit)
+      await this.loadHabits()
 
       this.view = 'list'
       this.render()
