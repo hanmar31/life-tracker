@@ -31,7 +31,7 @@ class HabitForm extends HTMLElement {
 
     const style = document.createElement('link')
     style.rel = 'stylesheet'
-    style.href = new URL('/css/styles.css', import.meta.url)
+    style.href = new URL('./css/styles.css', import.meta.url)
     shadow.appendChild(style)
 
     const wrapper = document.createElement('div')

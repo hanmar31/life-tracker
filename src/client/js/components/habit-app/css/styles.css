@@ -1,0 +1,10 @@
+button {
+    background: #7871AA;
+    font-size: medium;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #656099;
+    transition: background .2s;
+}

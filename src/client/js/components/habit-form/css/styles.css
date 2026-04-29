@@ -1,0 +1,19 @@
+button {
+    background: #7871AA;
+    font-size: medium;
+}
+
+button:hover {
+    background: #656099;
+    transition: background .2s;
+}
+
+select {
+    background: #bbb4e9;
+    font-size: medium;
+}
+
+input {
+    background: #cac6e2;
+    font-size: medium;
+}
