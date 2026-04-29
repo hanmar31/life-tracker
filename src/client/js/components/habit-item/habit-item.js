@@ -31,6 +31,7 @@ class HabitItem extends HTMLElement {
     shadow.replaceChildren()
 
     const name = this.dataset.name
+    const frequency = this.dataset.frequency
     const completed = this.dataset.completed === 'true'
 
     const style = document.createElement('link')
@@ -39,7 +40,17 @@ class HabitItem extends HTMLElement {
     shadow.appendChild(style)
 
     const li = document.createElement('li')
-    li.textContent = name
+
+    const nameEl = document.createElement('span')
+    const freqEl = document.createElement('span')
+
+    freqEl.classList.add('badge')
+    freqEl.classList.add(frequency)
+
+    nameEl.textContent = name
+    freqEl.textContent = ` ${frequency} `
+
+    li.append(nameEl, freqEl)
 
     if (completed) {
       li.classList.add('done')

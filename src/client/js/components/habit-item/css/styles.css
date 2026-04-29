@@ -17,3 +17,25 @@ li.done {
     text-decoration: line-through;
     opacity: 0.6;
 }
+
+.badge {
+    margin-left: 20px;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.daily {
+    background: green;
+}
+
+.weekly {
+    background:teal;
+}
+
+.monthly {
+    background: goldenrod;
+}
