@@ -2,9 +2,23 @@ button {
     background: #7871AA;
     font-size: medium;
     font-weight: bold;
+    color: #f0f0f0;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .2s, transform 0.2s; 
 }
 
 button:hover {
     background: #656099;
-    transition: background .2s;
+    animation: wiggle 0.3s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(2deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-2deg); }
+    100% { transform: rotate(0deg); }
 }
