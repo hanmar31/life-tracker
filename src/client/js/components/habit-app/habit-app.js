@@ -99,7 +99,7 @@ class HabitApp extends HTMLElement {
     const form = document.createElement('habit-form')
 
     form.addEventListener('create-habit', async (e) => {
-      fetch('/api/habits', {
+      await fetch('/api/habits', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
