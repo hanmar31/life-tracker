@@ -18,6 +18,12 @@ class HabitApp extends HTMLElement {
     this.attachShadow({ mode: 'open' })
 
     this.view = 'list'
+    this.habits = []
+
+    const style = document.createElement('link')
+    style.rel = 'stylesheet'
+    style.href = new URL('./css/styles.css', import.meta.url)
+    this.shadowRoot.appendChild(style)
   }
 
   /**
@@ -42,31 +48,32 @@ class HabitApp extends HTMLElement {
   render () {
     const shadow = this.shadowRoot
 
-    shadow.replaceChildren()
+    const old = shadow.querySelector('.wrapper')
+    if (old) old.remove()
 
-    const style = document.createElement('link')
-    style.rel = 'stylesheet'
-    style.href = new URL('./css/styles.css', import.meta.url)
-    shadow.appendChild(style)
+    const wrapper = document.createElement('div')
+    wrapper.classList.add('wrapper')
 
     const title = document.createElement('h1')
     title.textContent = 'Life Tracker'
 
-    shadow.append(style, title)
+    wrapper.appendChild(title)
 
     if (this.view === 'list') {
-      this.renderListView(shadow)
+      this.renderListView(wrapper)
     } else {
-      this.renderFormView(shadow)
+      this.renderFormView(wrapper)
     }
+
+    shadow.appendChild(wrapper)
   }
 
   /**
    * Renders the habit list view.
    *
-   * @param {ShadowRoot} shadow the component's shadow root
+   * @param {ShadowRoot} wrapper the component's shadow root
    */
-  renderListView (shadow) {
+  renderListView (wrapper) {
     const button = document.createElement('button')
     button.textContent = 'Create Habit'
 
@@ -83,23 +90,25 @@ class HabitApp extends HTMLElement {
 
       if (habit) {
         habit.completed = !habit.completed
-        this.render()
+
+        const list = this.shadowRoot.querySelector('habit-list')
+        list.habits = this.habits
       }
     })
 
-    shadow.append(button, list)
+    wrapper.append(button, list)
   }
 
   /**
    * Renders the create habit form.
    *
-   * @param {ShadowRoot} shadow the component's shadow root
+   * @param {ShadowRoot} wrapper the component's shadow root
    */
-  renderFormView (shadow) {
+  renderFormView (wrapper) {
     const form = document.createElement('habit-form')
 
     form.addEventListener('create-habit', async (e) => {
-      await fetch('/api/habits', {
+      const res = await fetch('/api/habits', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -110,7 +119,9 @@ class HabitApp extends HTMLElement {
         })
       })
 
-      await this.loadHabits()
+      const createdHabit = await res.json()
+
+      this.habits.push(createdHabit)
 
       this.view = 'list'
       this.render()
@@ -121,7 +132,7 @@ class HabitApp extends HTMLElement {
       this.render()
     })
 
-    shadow.appendChild(form)
+    wrapper.appendChild(form)
   }
 }
 

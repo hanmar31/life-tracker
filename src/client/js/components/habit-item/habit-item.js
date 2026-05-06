@@ -13,6 +13,11 @@ class HabitItem extends HTMLElement {
   constructor () {
     super()
     this.attachShadow({ mode: 'open' })
+
+    const style = document.createElement('link')
+    style.rel = 'stylesheet'
+    style.href = new URL('./css/styles.css', import.meta.url)
+    this.shadowRoot.appendChild(style)
   }
 
   /**
@@ -28,16 +33,15 @@ class HabitItem extends HTMLElement {
   render () {
     const shadow = this.shadowRoot
 
-    shadow.replaceChildren()
+    const old = shadow.querySelector('.wrapper')
+    if (old) old.remove()
+
+    const wrapper = document.createElement('div')
+    wrapper.classList.add('wrapper')
 
     const name = this.dataset.name
     const frequency = this.dataset.frequency
     const completed = this.dataset.completed === 'true'
-
-    const style = document.createElement('link')
-    style.rel = 'stylesheet'
-    style.href = new URL('./css/styles.css', import.meta.url)
-    shadow.appendChild(style)
 
     const li = document.createElement('li')
 
@@ -63,7 +67,8 @@ class HabitItem extends HTMLElement {
       }))
     })
 
-    shadow.appendChild(li)
+    wrapper.appendChild(li)
+    shadow.appendChild(wrapper)
   }
 }
 

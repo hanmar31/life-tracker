@@ -16,6 +16,11 @@ class HabitList extends HTMLElement {
     super()
     this.attachShadow({ mode: 'open' })
     this._habits = []
+
+    const style = document.createElement('link')
+    style.rel = 'stylesheet'
+    style.href = new URL('./css/styles.css', import.meta.url)
+    this.shadowRoot.appendChild(style)
   }
 
   /**
@@ -42,12 +47,11 @@ class HabitList extends HTMLElement {
   render () {
     const shadow = this.shadowRoot
 
-    shadow.replaceChildren()
+    const old = shadow.querySelector('.wrapper')
+    if (old) old.remove()
 
-    const style = document.createElement('link')
-    style.rel = 'stylesheet'
-    style.href = new URL('./css/styles.css', import.meta.url)
-    shadow.appendChild(style)
+    const wrapper = document.createElement('div')
+    wrapper.classList.add('wrapper')
 
     const ul = document.createElement('ul')
 
@@ -69,7 +73,8 @@ class HabitList extends HTMLElement {
       ul.appendChild(item)
     })
 
-    shadow.appendChild(ul)
+    wrapper.appendChild(ul)
+    shadow.appendChild(wrapper)
   }
 }
 

@@ -13,6 +13,10 @@ class HabitForm extends HTMLElement {
   constructor () {
     super()
     this.attachShadow({ mode: 'open' })
+    const style = document.createElement('link')
+    style.rel = 'stylesheet'
+    style.href = new URL('./css/styles.css', import.meta.url)
+    this.shadowRoot.appendChild(style)
   }
 
   /**
@@ -27,14 +31,12 @@ class HabitForm extends HTMLElement {
    */
   render () {
     const shadow = this.shadowRoot
-    shadow.replaceChildren()
-
-    const style = document.createElement('link')
-    style.rel = 'stylesheet'
-    style.href = new URL('./css/styles.css', import.meta.url)
-    shadow.appendChild(style)
+   
+    const old = shadow.querySelector('.wrapper')
+    if (old) old.remove()
 
     const wrapper = document.createElement('div')
+    wrapper.classList.add('wrapper')
 
     const input = document.createElement('input')
     input.placeholder = 'New habit..'
