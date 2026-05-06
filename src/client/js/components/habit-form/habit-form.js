@@ -80,12 +80,21 @@ class HabitForm extends HTMLElement {
   /**
    * Creates a new habit.
    *
+   * @returns {void}
    */
   createHabit () {
     const name = this.input.value.trim()
     const frequency = this.select.value
 
-    if (!name) return
+    if (!name) {
+      const errMessage = document.createElement('p')
+      errMessage.textContent = 'Habit name cannot be empty'
+      errMessage.classList.add('error')
+
+      this.shadowRoot.appendChild(errMessage)
+
+      return errMessage
+    }
 
     this.dispatchEvent(new CustomEvent('create-habit', {
       detail: { name, frequency },
