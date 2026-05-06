@@ -42,6 +42,7 @@ class HabitApp extends HTMLElement {
     this.shadowRoot.appendChild(style)
 
     await this.loadHabits()
+
     this.render()
   }
 
@@ -94,8 +95,12 @@ class HabitApp extends HTMLElement {
       if (habit) {
         habit.completed = !habit.completed
 
-        const list = this.shadowRoot.querySelector('habit-list')
-        list.habits = this.habits
+        const habitList = this.shadowRoot.querySelector('habit-list')
+        const item = habitList.shadowRoot.querySelector(`habit-item[data-id="${e.detail.id}"]`)
+        if (item) {
+          item.dataset.completed = habit.completed
+          item.render()
+        }
       }
     })
 
