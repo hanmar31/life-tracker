@@ -5,6 +5,7 @@
 
 import '../habit-list/index.js'
 import '../habit-form/index.js'
+import { loadCSS } from '../../utils/css-loader.js'
 
 /**
  * Represents the main Habit App.
@@ -19,11 +20,6 @@ class HabitApp extends HTMLElement {
 
     this.view = 'list'
     this.habits = []
-
-    const style = document.createElement('link')
-    style.rel = 'stylesheet'
-    style.href = new URL('./css/styles.css', import.meta.url)
-    this.shadowRoot.appendChild(style)
   }
 
   /**
@@ -38,6 +34,13 @@ class HabitApp extends HTMLElement {
    * Called when the element is added to the DOM.
    */
   async connectedCallback () {
+    const cssURL = new URL('./css/styles.css', import.meta.url).href
+    const css = await loadCSS(cssURL)
+
+    const style = document.createElement('style')
+    style.textContent = css
+    this.shadowRoot.appendChild(style)
+
     await this.loadHabits()
     this.render()
   }

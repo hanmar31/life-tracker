@@ -3,6 +3,8 @@
  * @version 1.0.0
  */
 
+import { loadCSS } from '../../utils/css-loader.js'
+
 /**
  * Provides a form to create new habits.
  */
@@ -13,16 +15,19 @@ class HabitForm extends HTMLElement {
   constructor () {
     super()
     this.attachShadow({ mode: 'open' })
-    const style = document.createElement('link')
-    style.rel = 'stylesheet'
-    style.href = new URL('./css/styles.css', import.meta.url)
-    this.shadowRoot.appendChild(style)
   }
 
   /**
    * Called when the element is added to the DOM.
    */
-  connectedCallback () {
+  async connectedCallback () {
+    const cssUrl = new URL('./css/styles.css', import.meta.url).href
+    const css = await loadCSS(cssUrl)
+
+    const style = document.createElement('style')
+    style.textContent = css
+    this.shadowRoot.appendChild(style)
+
     this.render()
   }
 
@@ -31,7 +36,7 @@ class HabitForm extends HTMLElement {
    */
   render () {
     const shadow = this.shadowRoot
-   
+
     const old = shadow.querySelector('.wrapper')
     if (old) old.remove()
 

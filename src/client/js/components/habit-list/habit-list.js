@@ -3,6 +3,7 @@
  * @version 1.0.0
  */
 
+import { loadCSS } from '../../utils/css-loader.js'
 import '../habit-item/index.js'
 
 /**
@@ -16,11 +17,7 @@ class HabitList extends HTMLElement {
     super()
     this.attachShadow({ mode: 'open' })
     this._habits = []
-
-    const style = document.createElement('link')
-    style.rel = 'stylesheet'
-    style.href = new URL('./css/styles.css', import.meta.url)
-    this.shadowRoot.appendChild(style)
+    this._ready = false
   }
 
   /**
@@ -28,7 +25,7 @@ class HabitList extends HTMLElement {
    */
   set habits (value) {
     this._habits = value
-    this.render()
+    if (this._ready) this.render()
   }
 
   /**
@@ -38,6 +35,21 @@ class HabitList extends HTMLElement {
    */
   get habits () {
     return this._habits
+  }
+
+  /**
+   * Called when the element is connected to the DOM.
+   */
+  async connectedCallback () {
+    const cssUrl = new URL('./css/styles.css', import.meta.url).href
+    const css = await loadCSS(cssUrl)
+
+    const style = document.createElement('style')
+    style.textContent = css
+    this.shadowRoot.appendChild(style)
+
+    this._ready = true
+    this.render()
   }
 
   /**
