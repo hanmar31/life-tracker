@@ -20,6 +20,7 @@ class HabitApp extends HTMLElement {
 
     this.view = 'list'
     this.habits = []
+    this.currentDate = new Date()
   }
 
   /**
