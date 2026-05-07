@@ -235,6 +235,19 @@ class HabitApp extends HTMLElement {
    * @param {ShadowRoot} wrapper the component's shadow root.
    */
   renderMonthlyView (wrapper) {
+    const year = this.currentDate.getFullYear()
+    const month = this.currentDate.toLocaleDateString('en', { month: 'long' })
+
+    const monthName = `${month} ${year}`
+
+    const monthDate = document.createElement('p')
+    monthDate.textContent = monthName
+
+    const monthDiv = document.createElement('div')
+    monthDiv.classList.add('current-month-name')
+    monthDiv.appendChild(monthDate)
+
+    wrapper.appendChild(monthDiv)
     this.renderNavButtons(wrapper)
 
     const monthList = document.createElement('habit-list')

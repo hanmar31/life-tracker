@@ -48,3 +48,7 @@ button:hover {
     font-weight: bolder;
     text-align: center;
 }
+
+.current-month-name {
+    text-align: center;
+}
