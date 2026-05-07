@@ -19,6 +19,7 @@ class HabitApp extends HTMLElement {
     this.attachShadow({ mode: 'open' })
 
     this.view = 'list'
+    this.frequency = 'daily'
     this.habits = []
     this.currentDate = new Date()
   }
@@ -64,13 +65,121 @@ class HabitApp extends HTMLElement {
 
     wrapper.appendChild(title)
 
-    if (this.view === 'list') {
-      this.renderListView(wrapper)
-    } else {
+    if (this.view === 'daily') {
+      this.renderDailyView(wrapper)
+    } else if (this.view === 'form') {
       this.renderFormView(wrapper)
+    } else if (this.view === 'weekly') {
+      this.renderWeeklyView(wrapper)
+    } else if (this.view === 'monthly') {
+      this.renderMonthlyView(wrapper)
+    } else {
+      this.renderListView(wrapper)
     }
-
     shadow.appendChild(wrapper)
+  }
+
+  /**
+   * Creates navigation buttons for switching views.
+   *
+   * @param {HTMLElement} wrapper - The container element.
+   */
+  renderNavButtons (wrapper) {
+    const dailyBtn = document.createElement('button')
+    dailyBtn.textContent = 'Today'
+
+    dailyBtn.addEventListener('click', () => {
+      this.view = 'daily'
+      this.render()
+    })
+
+    const weekBtn = document.createElement('button')
+    weekBtn.textContent = 'This week'
+
+    weekBtn.addEventListener('click', () => {
+      this.view = 'weekly'
+      this.render()
+    })
+
+    const monthBtn = document.createElement('button')
+    monthBtn.textContent = 'This month'
+
+    monthBtn.addEventListener('click', () => {
+      this.view = 'monthly'
+      this.render()
+    })
+
+    const createBtn = document.createElement('button')
+    createBtn.textContent = 'Create Habit'
+
+    createBtn.addEventListener('click', () => {
+      this.view = 'form'
+      this.render()
+    })
+    wrapper.append(dailyBtn, weekBtn, monthBtn, createBtn)
+  }
+
+  /**
+   * Handles toggling a habit.
+   *
+   * @param {CustomEvent} e - Toggle event.
+   */
+  handleToggleHabit (e) {
+    const habit = this.habits.find(h => h.id === e.detail.id)
+
+    if (habit) {
+      habit.completed = !habit.completed
+
+      const habitList = this.shadowRoot.querySelector('habit-list')
+      const item = habitList.shadowRoot.querySelector(`habit-item[data-id="${e.detail.id}"]`)
+      if (item) {
+        item.dataset.completed = habit.completed
+        item.render()
+      }
+    }
+  }
+
+  /**
+   * Renders a daily view.
+   *
+   * @param {ShadowRoot} wrapper the component's shadow root.
+   */
+  renderDailyView (wrapper) {
+    this.renderNavButtons(wrapper)
+
+    const dailyList = document.createElement('habit-list')
+    dailyList.habits = this.habits.filter(habit => habit.frequency === 'daily')
+
+    dailyList.addEventListener('toggle-habit', (e) => this.handleToggleHabit(e))
+    wrapper.appendChild(dailyList)
+  }
+
+  /**
+   * Renders a weekly view.
+   *
+   * @param {ShadowRoot} wrapper the component's shadow root.
+   */
+  renderWeeklyView (wrapper) {
+    this.renderNavButtons(wrapper)
+
+    const weekList = document.createElement('habit-list')
+    weekList.habits = this.habits.filter(habit => habit.frequency === 'weekly')
+    weekList.addEventListener('toggle-habit', (e) => this.handleToggleHabit(e))
+    wrapper.appendChild(weekList)
+  }
+
+  /**
+   * Renders a monthly view.
+   *
+   * @param {ShadowRoot} wrapper the component's shadow root.
+   */
+  renderMonthlyView (wrapper) {
+    this.renderNavButtons(wrapper)
+
+    const monthList = document.createElement('habit-list')
+    monthList.habits = this.habits.filter(habit => habit.frequency === 'monthly')
+    monthList.addEventListener('toggle-habit', (e) => this.handleToggleHabit(e))
+    wrapper.appendChild(monthList)
   }
 
   /**
@@ -79,33 +188,12 @@ class HabitApp extends HTMLElement {
    * @param {ShadowRoot} wrapper the component's shadow root
    */
   renderListView (wrapper) {
-    const button = document.createElement('button')
-    button.textContent = 'Create Habit'
-
-    button.addEventListener('click', () => {
-      this.view = 'form'
-      this.render()
-    })
+    this.renderNavButtons(wrapper)
 
     const list = document.createElement('habit-list')
     list.habits = this.habits
 
-    list.addEventListener('toggle-habit', (e) => {
-      const habit = this.habits.find(h => h.id === e.detail.id)
-
-      if (habit) {
-        habit.completed = !habit.completed
-
-        const habitList = this.shadowRoot.querySelector('habit-list')
-        const item = habitList.shadowRoot.querySelector(`habit-item[data-id="${e.detail.id}"]`)
-        if (item) {
-          item.dataset.completed = habit.completed
-          item.render()
-        }
-      }
-    })
-
-    wrapper.append(button, list)
+    wrapper.appendChild(list)
   }
 
   /**
@@ -132,12 +220,12 @@ class HabitApp extends HTMLElement {
 
       this.habits.push(createdHabit)
 
-      this.view = 'list'
+      this.view = 'daily'
       this.render()
     })
 
     form.addEventListener('go-back', () => {
-      this.view = 'list'
+      this.view = 'daily'
       this.render()
     })
 
