@@ -19,7 +19,6 @@ class HabitApp extends HTMLElement {
     this.attachShadow({ mode: 'open' })
 
     this.view = 'list'
-    this.frequency = 'daily'
     this.habits = []
     this.currentDate = new Date()
   }
@@ -154,12 +153,26 @@ class HabitApp extends HTMLElement {
    * @param {ShadowRoot} wrapper the component's shadow root.
    */
   renderDailyView (wrapper) {
-    this.renderNavButtons(wrapper)
+    const year = this.currentDate.getFullYear()
+    const month = String(this.currentDate.getMonth() + 1).padStart(2, '0')
+    const day = String(this.currentDate.getDate()).padStart(2, '0')
+
+    const dayDate = `${year} - ${month} - ${day}`
+
+    const date = document.createElement('p')
+    date.textContent = dayDate
+
+    const dateDiv = document.createElement('div')
+    dateDiv.classList.add('current-date')
+    dateDiv.appendChild(date)
 
     const dailyList = document.createElement('habit-list')
     dailyList.habits = this.habits.filter(habit => habit.frequency === 'daily')
 
     dailyList.addEventListener('toggle-habit', (e) => this.handleToggleHabit(e))
+
+    wrapper.appendChild(dateDiv)
+    this.renderNavButtons(wrapper)
     wrapper.appendChild(dailyList)
   }
 
