@@ -109,6 +109,10 @@ class HabitApp extends HTMLElement {
       this.render()
     })
 
+    const navBtns = document.createElement('div')
+    navBtns.classList.add('nav-buttons')
+    navBtns.append(dailyBtn, weekBtn, monthBtn)
+
     const createBtn = document.createElement('button')
     createBtn.textContent = 'Create Habit'
 
@@ -116,7 +120,12 @@ class HabitApp extends HTMLElement {
       this.view = 'form'
       this.render()
     })
-    wrapper.append(dailyBtn, weekBtn, monthBtn, createBtn)
+
+    const create = document.createElement('div')
+    create.classList.add('create-button')
+    create.appendChild(createBtn)
+
+    wrapper.append(navBtns, create)
   }
 
   /**
