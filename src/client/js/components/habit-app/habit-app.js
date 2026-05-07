@@ -191,6 +191,36 @@ class HabitApp extends HTMLElement {
    * @param {ShadowRoot} wrapper the component's shadow root.
    */
   renderWeeklyView (wrapper) {
+    const daysOfWeek = this.currentDate.getDay()
+    const daysFromMonday = (daysOfWeek + 6) % 7
+
+    const monday = new Date(this.currentDate)
+    monday.setDate(this.currentDate.getDate() - daysFromMonday)
+
+    const sunday = new Date(this.currentDate)
+    sunday.setDate(this.currentDate.getDate() - daysFromMonday + 6)
+
+    const mondayDay = String(monday.getDate()).padStart(2, '0')
+    const sundayDay = String(sunday.getDate()).padStart(2, '0')
+    const mondayMonth = monday.toLocaleDateString('en', { month: 'long' })
+    const sundayMonth = sunday.toLocaleDateString('en', { month: 'long' })
+    const mondayYear = monday.getFullYear()
+    const sundayYear = sunday.getFullYear()
+
+    const yearDisplay = mondayYear === sundayYear ? mondayYear : `${mondayYear}-${sundayYear}`
+
+    const monthDisplay = mondayMonth === sundayMonth ? mondayMonth : `${mondayMonth}-${sundayMonth}`
+
+    const weekRange = `${mondayDay}-${sundayDay} ${monthDisplay} ${yearDisplay}`
+
+    const date = document.createElement('p')
+    date.textContent = weekRange
+
+    const dateDiv = document.createElement('div')
+    dateDiv.classList.add('current-date')
+    dateDiv.appendChild(date)
+    wrapper.appendChild(dateDiv)
+
     this.renderNavButtons(wrapper)
 
     const weekList = document.createElement('habit-list')
