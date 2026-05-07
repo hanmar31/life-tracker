@@ -43,3 +43,8 @@ button:hover {
 .create-button {
     text-align: right;
 }
+
+.current-day-name {
+    font-weight: bolder;
+    text-align: center;
+}

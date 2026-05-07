@@ -154,10 +154,10 @@ class HabitApp extends HTMLElement {
    */
   renderDailyView (wrapper) {
     const year = this.currentDate.getFullYear()
-    const month = String(this.currentDate.getMonth() + 1).padStart(2, '0')
+    const month = this.currentDate.toLocaleDateString('en', { month: 'long' })
     const day = String(this.currentDate.getDate()).padStart(2, '0')
 
-    const dayDate = `${year} - ${month} - ${day}`
+    const dayDate = `${day} ${month} ${year}`
 
     const date = document.createElement('p')
     date.textContent = dayDate
@@ -166,12 +166,21 @@ class HabitApp extends HTMLElement {
     dateDiv.classList.add('current-date')
     dateDiv.appendChild(date)
 
+    const weekdayName = this.currentDate.toLocaleDateString('en', { weekday: 'long' })
+
+    const dayName = document.createElement('p')
+    dayName.textContent = weekdayName
+
+    const dayNameDiv = document.createElement('div')
+    dayNameDiv.classList.add('current-day-name')
+    dayNameDiv.appendChild(dayName)
+
     const dailyList = document.createElement('habit-list')
     dailyList.habits = this.habits.filter(habit => habit.frequency === 'daily')
 
     dailyList.addEventListener('toggle-habit', (e) => this.handleToggleHabit(e))
 
-    wrapper.appendChild(dateDiv)
+    wrapper.append(dateDiv, dayNameDiv)
     this.renderNavButtons(wrapper)
     wrapper.appendChild(dailyList)
   }
