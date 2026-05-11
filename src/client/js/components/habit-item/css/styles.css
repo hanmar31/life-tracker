@@ -1,4 +1,6 @@
 li {
+    display: flex;
+    align-items: center;
     background: #96899e;
     padding: 10px;
     margin-bottom: 5px;
@@ -40,4 +42,15 @@ li.done {
 
 .monthly {
     background: goldenrod;
+}
+
+.delete-btn {
+    background: #7871AA;
+    font-size: medium;
+    margin-left: auto;
+}
+
+.delete-btn:hover {
+    background: #656099;
+    transition: background .2s;
 }
