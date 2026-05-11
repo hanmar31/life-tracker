@@ -61,13 +61,17 @@ class HabitItem extends HTMLElement {
     const deleteBtn = document.createElement('button')
     deleteBtn.textContent = 'Delete habit'
 
+    deleteBtn.classList.add('delete-btn')
+
     li.append(nameEl, freqEl, deleteBtn)
 
     deleteBtn.addEventListener('click', () => {
-      this.dispatchEvent(new CustomEvent('delete-habit', {
-        detail: { id: Number(this.dataset.id) },
-        bubbles: true
-      }))
+      if (window.confirm('Are you sure you want to delete this habit')) {
+        this.dispatchEvent(new CustomEvent('delete-habit', {
+          detail: { id: Number(this.dataset.id) },
+          bubbles: true
+        }))
+      }
     })
 
     if (completed) {

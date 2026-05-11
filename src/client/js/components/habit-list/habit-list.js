@@ -82,6 +82,13 @@ class HabitList extends HTMLElement {
         }))
       })
 
+      item.addEventListener('delete-habit', (e) => {
+        this.dispatchEvent(new CustomEvent('delete-habit', {
+          detail: e.detail,
+          bubbles: true
+        }))
+      })
+
       ul.appendChild(item)
     })
 
