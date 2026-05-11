@@ -40,4 +40,15 @@ app.post('/api/habits', (req, res) => {
   res.status(201).json(newHabit)
 })
 
+app.delete('/api/habits/:id', (req, res) => {
+  const id = Number(req.params.id)
+  const index = habits.findIndex(h => h.id === id)
+  if (index !== -1) {
+    habits.splice(index, 1)
+    res.status(200).json({ message: 'Habit deleted' })
+  } else {
+    res.status(404).json({ message: 'Habit not found' })
+  }
+})
+
 export default app

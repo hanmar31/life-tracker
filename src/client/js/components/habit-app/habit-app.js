@@ -148,6 +148,20 @@ class HabitApp extends HTMLElement {
   }
 
   /**
+   * Handles deleting a habit.
+   *
+   * @param {CustomEvent} e - Delete habit.
+   */
+  async handleDeleteHabit (e) {
+    await fetch(`/api/habits/${e.detail.id}`, {
+      method: 'DELETE'
+    })
+
+    this.habits = this.habits.filter(h => h.id !== e.detail.id)
+    this.render()
+  }
+
+  /**
    * Renders a daily view.
    *
    * @param {ShadowRoot} wrapper the component's shadow root.
@@ -179,6 +193,10 @@ class HabitApp extends HTMLElement {
     dailyList.habits = this.habits.filter(habit => habit.frequency === 'daily')
 
     dailyList.addEventListener('toggle-habit', (e) => this.handleToggleHabit(e))
+
+    dailyList.addEventListener('delete-habit', async (e) => {
+      await this.handleDeleteHabit(e)
+    })
 
     wrapper.append(dateDiv, dayNameDiv)
     this.renderNavButtons(wrapper)
@@ -226,6 +244,11 @@ class HabitApp extends HTMLElement {
     const weekList = document.createElement('habit-list')
     weekList.habits = this.habits.filter(habit => habit.frequency === 'weekly')
     weekList.addEventListener('toggle-habit', (e) => this.handleToggleHabit(e))
+
+    weekList.addEventListener('delete-habit', async (e) => {
+      await this.handleDeleteHabit(e)
+    })
+
     wrapper.appendChild(weekList)
   }
 
@@ -253,6 +276,11 @@ class HabitApp extends HTMLElement {
     const monthList = document.createElement('habit-list')
     monthList.habits = this.habits.filter(habit => habit.frequency === 'monthly')
     monthList.addEventListener('toggle-habit', (e) => this.handleToggleHabit(e))
+
+    monthList.addEventListener('delete-habit', async (e) => {
+      await this.handleDeleteHabit(e)
+    })
+
     wrapper.appendChild(monthList)
   }
 
