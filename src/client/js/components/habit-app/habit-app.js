@@ -8,6 +8,7 @@ import '../habit-form/index.js'
 import { loadCSS } from '../../utils/css-loader.js'
 import '../daily-view/index.js'
 import '../weekly-view/index.js'
+import '../monthly-view/index.js'
 
 /**
  * Represents the main Habit App.
@@ -210,29 +211,19 @@ class HabitApp extends HTMLElement {
    * @param {ShadowRoot} wrapper the component's shadow root.
    */
   renderMonthlyView (wrapper) {
-    const year = this.currentDate.getFullYear()
-    const month = this.currentDate.toLocaleDateString('en', { month: 'long' })
+    const monthlyView = document.createElement('monthly-view')
+    monthlyView.habits = this.habits
+    monthlyView.currentDate = this.currentDate
 
-    const monthName = `${month} ${year}`
+    monthlyView.addEventListener('toggle-habit', (e) => {
+      this.handleToggleHabit(e)
+    })
 
-    const monthDate = document.createElement('p')
-    monthDate.textContent = monthName
-
-    const monthDiv = document.createElement('div')
-    monthDiv.classList.add('current-month-name')
-    monthDiv.appendChild(monthDate)
-
-    wrapper.appendChild(monthDiv)
-
-    const monthList = document.createElement('habit-list')
-    monthList.habits = this.habits.filter(habit => habit.frequency === 'monthly')
-    monthList.addEventListener('toggle-habit', (e) => this.handleToggleHabit(e))
-
-    monthList.addEventListener('delete-habit', async (e) => {
+    monthlyView.addEventListener('delete-habit', async (e) => {
       await this.handleDeleteHabit(e)
     })
 
-    wrapper.appendChild(monthList)
+    wrapper.appendChild(monthlyView)
   }
 
   /**
