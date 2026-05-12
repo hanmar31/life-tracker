@@ -6,6 +6,7 @@
 import '../habit-list/index.js'
 import '../habit-form/index.js'
 import { loadCSS } from '../../utils/css-loader.js'
+import '../daily-view/index.js'
 
 /**
  * Represents the main Habit App.
@@ -63,6 +64,10 @@ class HabitApp extends HTMLElement {
     title.textContent = 'Life Tracker'
 
     wrapper.appendChild(title)
+
+    if (this.view !== 'form') {
+      this.renderNavButtons(wrapper)
+    }
 
     if (this.view === 'daily') {
       this.renderDailyView(wrapper)
@@ -138,12 +143,7 @@ class HabitApp extends HTMLElement {
     if (habit) {
       habit.completed = !habit.completed
 
-      const habitList = this.shadowRoot.querySelector('habit-list')
-      const item = habitList.shadowRoot.querySelector(`habit-item[data-id="${e.detail.id}"]`)
-      if (item) {
-        item.dataset.completed = habit.completed
-        item.render()
-      }
+      this.render()
     }
   }
 
@@ -167,40 +167,19 @@ class HabitApp extends HTMLElement {
    * @param {ShadowRoot} wrapper the component's shadow root.
    */
   renderDailyView (wrapper) {
-    const year = this.currentDate.getFullYear()
-    const month = this.currentDate.toLocaleDateString('en', { month: 'long' })
-    const day = String(this.currentDate.getDate()).padStart(2, '0')
+    const dailyView = document.createElement('daily-view')
+    dailyView.habits = this.habits
+    dailyView.currentDate = this.currentDate
 
-    const dayDate = `${day} ${month} ${year}`
+    dailyView.addEventListener('toggle-habit', (e) => {
+      this.handleToggleHabit(e)
+    })
 
-    const date = document.createElement('p')
-    date.textContent = dayDate
-
-    const dateDiv = document.createElement('div')
-    dateDiv.classList.add('current-date')
-    dateDiv.appendChild(date)
-
-    const weekdayName = this.currentDate.toLocaleDateString('en', { weekday: 'long' })
-
-    const dayName = document.createElement('p')
-    dayName.textContent = weekdayName
-
-    const dayNameDiv = document.createElement('div')
-    dayNameDiv.classList.add('current-day-name')
-    dayNameDiv.appendChild(dayName)
-
-    const dailyList = document.createElement('habit-list')
-    dailyList.habits = this.habits.filter(habit => habit.frequency === 'daily')
-
-    dailyList.addEventListener('toggle-habit', (e) => this.handleToggleHabit(e))
-
-    dailyList.addEventListener('delete-habit', async (e) => {
+    dailyView.addEventListener('delete-habit', async (e) => {
       await this.handleDeleteHabit(e)
     })
 
-    wrapper.append(dateDiv, dayNameDiv)
-    this.renderNavButtons(wrapper)
-    wrapper.appendChild(dailyList)
+    wrapper.appendChild(dailyView)
   }
 
   /**
@@ -239,8 +218,6 @@ class HabitApp extends HTMLElement {
     dateDiv.appendChild(date)
     wrapper.appendChild(dateDiv)
 
-    this.renderNavButtons(wrapper)
-
     const weekList = document.createElement('habit-list')
     weekList.habits = this.habits.filter(habit => habit.frequency === 'weekly')
     weekList.addEventListener('toggle-habit', (e) => this.handleToggleHabit(e))
@@ -271,7 +248,6 @@ class HabitApp extends HTMLElement {
     monthDiv.appendChild(monthDate)
 
     wrapper.appendChild(monthDiv)
-    this.renderNavButtons(wrapper)
 
     const monthList = document.createElement('habit-list')
     monthList.habits = this.habits.filter(habit => habit.frequency === 'monthly')
@@ -290,8 +266,6 @@ class HabitApp extends HTMLElement {
    * @param {ShadowRoot} wrapper the component's shadow root
    */
   renderListView (wrapper) {
-    this.renderNavButtons(wrapper)
-
     const list = document.createElement('habit-list')
     list.habits = this.habits
 
