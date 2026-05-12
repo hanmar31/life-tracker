@@ -245,6 +245,17 @@ class HabitApp extends HTMLElement {
       await this.handleDeleteHabit(e)
     })
 
+    monthlyView.addEventListener('change-date', (e) => {
+      const newDate = new Date(this.currentDate)
+      if (e.detail.direction === 'prev') {
+        newDate.setMonth(newDate.getMonth() - 1)
+      } else {
+        newDate.setMonth(newDate.getMonth() + 1)
+      }
+      this.currentDate = newDate
+      this.render()
+    })
+
     wrapper.appendChild(monthlyView)
   }
 
