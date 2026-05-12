@@ -113,11 +113,11 @@ class WeeklyView extends HTMLElement {
 
     const prevBtn = document.createElement('button')
     prevBtn.classList.add('prev-button')
-    prevBtn.textContent = '<-- Previous Day'
+    prevBtn.textContent = '<-- Previous Week'
 
     const nextBtn = document.createElement('button')
     nextBtn.classList.add('next-button')
-    nextBtn.textContent = 'Next day -->'
+    nextBtn.textContent = 'Next week -->'
 
     const changeDateDiv = document.createElement('div')
     changeDateDiv.classList.add('change-date')
@@ -138,6 +138,20 @@ class WeeklyView extends HTMLElement {
     weekList.addEventListener('delete-habit', (e) => {
       this.dispatchEvent(new CustomEvent('delete-habit', {
         detail: e.detail,
+        bubbles: true
+      }))
+    })
+
+    prevBtn.addEventListener('click', () => {
+      this.dispatchEvent(new CustomEvent('change-date', {
+        detail: { direction: 'prev' },
+        bubbles: true
+      }))
+    })
+
+    nextBtn.addEventListener('click', () => {
+      this.dispatchEvent(new CustomEvent('change-date', {
+        detail: { direction: 'next' },
         bubbles: true
       }))
     })

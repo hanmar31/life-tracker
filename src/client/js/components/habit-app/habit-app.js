@@ -213,6 +213,17 @@ class HabitApp extends HTMLElement {
       await this.handleDeleteHabit(e)
     })
 
+    weeklyView.addEventListener('change-date', (e) => {
+      const newDate = new Date(this.currentDate)
+      if (e.detail.direction === 'prev') {
+        newDate.setDate(newDate.getDate() - 7)
+      } else {
+        newDate.setDate(newDate.getDate() + 7)
+      }
+      this.currentDate = newDate
+      this.render()
+    })
+
     wrapper.appendChild(weeklyView)
   }
 
