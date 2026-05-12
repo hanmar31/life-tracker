@@ -27,7 +27,7 @@ class HabitApp extends HTMLElement {
    * Fetches habits from the API and updates the component state.
    */
   async loadHabits () {
-    const res = await fetch('/api/habits')
+    const res = await fetch('/api/v1/habits')
     this.habits = await res.json()
   }
 
@@ -133,7 +133,7 @@ class HabitApp extends HTMLElement {
    * @param {CustomEvent} e - Toggle event.
    */
   handleToggleHabit (e) {
-    const habit = this.habits.find(h => h.id === e.detail.id)
+    const habit = this.habits.find(h => h._id === e.detail.id)
 
     if (habit) {
       habit.completed = !habit.completed
@@ -153,11 +153,11 @@ class HabitApp extends HTMLElement {
    * @param {CustomEvent} e - Delete habit.
    */
   async handleDeleteHabit (e) {
-    await fetch(`/api/habits/${e.detail.id}`, {
+    await fetch(`/api/v1/habits/${e.detail.id}`, {
       method: 'DELETE'
     })
 
-    this.habits = this.habits.filter(h => h.id !== e.detail.id)
+    this.habits = this.habits.filter(h => h._id !== e.detail.id)
     this.render()
   }
 
@@ -307,7 +307,7 @@ class HabitApp extends HTMLElement {
     const form = document.createElement('habit-form')
 
     form.addEventListener('create-habit', async (e) => {
-      const res = await fetch('/api/habits', {
+      const res = await fetch('/api/v1/habits', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

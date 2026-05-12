@@ -68,7 +68,7 @@ class HabitItem extends HTMLElement {
     deleteBtn.addEventListener('click', () => {
       if (window.confirm('Are you sure you want to delete this habit')) {
         this.dispatchEvent(new CustomEvent('delete-habit', {
-          detail: { id: Number(this.dataset.id) },
+          detail: { id: (this.dataset.id) },
           bubbles: true
         }))
       }
@@ -80,7 +80,7 @@ class HabitItem extends HTMLElement {
 
     li.addEventListener('click', () => {
       this.dispatchEvent(new CustomEvent('toggle-habit', {
-        detail: { id: Number(this.dataset.id) },
+        detail: { id: (this.dataset.id) },
         bubbles: true
       }))
     })

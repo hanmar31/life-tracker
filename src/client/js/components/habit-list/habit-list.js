@@ -70,7 +70,7 @@ class HabitList extends HTMLElement {
     this._habits.forEach(habit => {
       const item = document.createElement('habit-item')
 
-      item.dataset.id = habit.id
+      item.dataset.id = habit._id
       item.dataset.name = habit.name
       item.dataset.frequency = habit.frequency
       item.dataset.completed = habit.completed
