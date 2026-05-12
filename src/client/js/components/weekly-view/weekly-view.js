@@ -113,7 +113,7 @@ class WeeklyView extends HTMLElement {
 
     const prevBtn = document.createElement('button')
     prevBtn.classList.add('prev-button')
-    prevBtn.textContent = '<-- Previous Week'
+    prevBtn.textContent = '<-- Previous week'
 
     const nextBtn = document.createElement('button')
     nextBtn.classList.add('next-button')

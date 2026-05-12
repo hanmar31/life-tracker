@@ -106,7 +106,7 @@ class DailyView extends HTMLElement {
 
     const prevBtn = document.createElement('button')
     prevBtn.classList.add('prev-button')
-    prevBtn.textContent = '<-- Previous Day'
+    prevBtn.textContent = '<-- Previous day'
 
     const nextBtn = document.createElement('button')
     nextBtn.classList.add('next-button')

@@ -94,7 +94,19 @@ class MonthlyView extends HTMLElement {
     monthDiv.classList.add('current-month-name')
     monthDiv.appendChild(monthDate)
 
-    wrapper.appendChild(monthDiv)
+    const prevBtn = document.createElement('button')
+    prevBtn.classList.add('prev-button')
+    prevBtn.textContent = '<-- Previous month'
+
+    const nextBtn = document.createElement('button')
+    nextBtn.classList.add('next-button')
+    nextBtn.textContent = 'Next month -->'
+
+    const changeDateDiv = document.createElement('div')
+    changeDateDiv.classList.add('change-date')
+    changeDateDiv.append(prevBtn, monthDiv, nextBtn)
+
+    wrapper.appendChild(changeDateDiv)
 
     const monthList = document.createElement('habit-list')
     monthList.habits = this._habits.filter(habit => habit.frequency === 'monthly')
@@ -108,6 +120,20 @@ class MonthlyView extends HTMLElement {
     monthList.addEventListener('delete-habit', (e) => {
       this.dispatchEvent(new CustomEvent('delete-habit', {
         detail: e.detail,
+        bubbles: true
+      }))
+    })
+
+    prevBtn.addEventListener('click', () => {
+      this.dispatchEvent(new CustomEvent('change-date', {
+        detail: { direction: 'prev' },
+        bubbles: true
+      }))
+    })
+
+    nextBtn.addEventListener('click', () => {
+      this.dispatchEvent(new CustomEvent('change-date', {
+        detail: { direction: 'next' },
         bubbles: true
       }))
     })
