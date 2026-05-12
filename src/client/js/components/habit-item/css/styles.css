@@ -48,6 +48,9 @@ li.done {
     background: #7871AA;
     font-size: medium;
     margin-left: auto;
+    border-radius: 8px;
+    color: #cfcbf3;
+
 }
 
 .delete-btn:hover {

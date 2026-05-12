@@ -110,7 +110,20 @@ class WeeklyView extends HTMLElement {
     const dateDiv = document.createElement('div')
     dateDiv.classList.add('current-date')
     dateDiv.appendChild(date)
-    wrapper.appendChild(dateDiv)
+
+    const prevBtn = document.createElement('button')
+    prevBtn.classList.add('prev-button')
+    prevBtn.textContent = '<-- Previous Day'
+
+    const nextBtn = document.createElement('button')
+    nextBtn.classList.add('next-button')
+    nextBtn.textContent = 'Next day -->'
+
+    const changeDateDiv = document.createElement('div')
+    changeDateDiv.classList.add('change-date')
+    changeDateDiv.append(prevBtn, dateDiv, nextBtn)
+
+    wrapper.appendChild(changeDateDiv)
 
     const weekList = document.createElement('habit-list')
     weekList.habits = this._habits.filter(habit => habit.frequency === 'weekly')
