@@ -1,0 +1,137 @@
+/**
+ * @author Hanna Mårtensson <hm223dq@student.lnu.se>
+ * @version 1.0.0
+ */
+
+import { loadCSS } from '../../utils/css-loader.js'
+import '../habit-list/index.js'
+
+/**
+ * Displays the daily view.
+ */
+class WeeklyView extends HTMLElement {
+  /**
+   * Creates the component and attaches a shadoW DOM.
+   */
+  constructor () {
+    super()
+    this.attachShadow({ mode: 'open' })
+    this._habits = []
+    this._ready = false
+    this._currentDate = new Date()
+  }
+
+  /**
+   * Called when the element is connected to the DOM.
+   */
+  async connectedCallback () {
+    const cssUrl = new URL('./css/styles.css', import.meta.url).href
+    const css = await loadCSS(cssUrl)
+
+    const style = document.createElement('style')
+    style.textContent = css
+    this.shadowRoot.appendChild(style)
+
+    this._ready = true
+    this.render()
+  }
+
+  /**
+   * Sets the habit data and re-renders the list.
+   */
+  set habits (value) {
+    this._habits = value
+    if (this._ready) this.render()
+  }
+
+  /**
+   * Gets the habit data.
+   *
+   * @returns {Array} habit data.
+   */
+  get habits () {
+    return this._habits
+  }
+
+  /**
+   * Sets the current date.
+   */
+  set currentDate (value) {
+    this._currentDate = value
+    if (this._ready) this.render()
+  }
+
+  /**
+   * Gets the current date.
+   *
+   * @returns {Date} The current date.
+   */
+  get currentDate () {
+    return this._currentDate
+  }
+
+  /**
+   * Renders the weekly view.
+   */
+  render () {
+    const shadow = this.shadowRoot
+
+    const old = shadow.querySelector('.wrapper')
+    if (old) old.remove()
+
+    const wrapper = document.createElement('div')
+    wrapper.classList.add('wrapper')
+
+    const daysOfWeek = this._currentDate.getDay()
+    const daysFromMonday = (daysOfWeek + 6) % 7
+
+    const monday = new Date(this._currentDate)
+    monday.setDate(this._currentDate.getDate() - daysFromMonday)
+
+    const sunday = new Date(this._currentDate)
+    sunday.setDate(this._currentDate.getDate() - daysFromMonday + 6)
+
+    const mondayDay = String(monday.getDate()).padStart(2, '0')
+    const sundayDay = String(sunday.getDate()).padStart(2, '0')
+    const mondayMonth = monday.toLocaleDateString('en', { month: 'long' })
+    const sundayMonth = sunday.toLocaleDateString('en', { month: 'long' })
+    const mondayYear = monday.getFullYear()
+    const sundayYear = sunday.getFullYear()
+
+    const yearDisplay = mondayYear === sundayYear ? mondayYear : `${mondayYear}-${sundayYear}`
+
+    const monthDisplay = mondayMonth === sundayMonth ? mondayMonth : `${mondayMonth}-${sundayMonth}`
+
+    const weekRange = `${mondayDay}-${sundayDay} ${monthDisplay} ${yearDisplay}`
+
+    const date = document.createElement('p')
+    date.textContent = weekRange
+
+    const dateDiv = document.createElement('div')
+    dateDiv.classList.add('current-date')
+    dateDiv.appendChild(date)
+    wrapper.appendChild(dateDiv)
+
+    const weekList = document.createElement('habit-list')
+    weekList.habits = this._habits.filter(habit => habit.frequency === 'weekly')
+
+    weekList.addEventListener('toggle-habit', (e) => {
+      this.dispatchEvent(new CustomEvent('toggle-habit', {
+        detail: e.detail,
+        bubbles: true
+      }))
+    })
+
+    weekList.addEventListener('delete-habit', (e) => {
+      this.dispatchEvent(new CustomEvent('delete-habit', {
+        detail: e.detail,
+        bubbles: true
+      }))
+    })
+
+    wrapper.appendChild(weekList)
+    shadow.appendChild(wrapper)
+  }
+}
+
+customElements.define('weekly-view', WeeklyView)
