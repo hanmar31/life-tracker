@@ -181,6 +181,17 @@ class HabitApp extends HTMLElement {
       await this.handleDeleteHabit(e)
     })
 
+    dailyView.addEventListener('change-date', (e) => {
+      const newDate = new Date(this.currentDate)
+      if (e.detail.direction === 'prev') {
+        newDate.setDate(newDate.getDate() - 1)
+      } else {
+        newDate.setDate(newDate.getDate() + 1)
+      }
+      this.currentDate = newDate
+      this.render()
+    })
+
     wrapper.appendChild(dailyView)
   }
 

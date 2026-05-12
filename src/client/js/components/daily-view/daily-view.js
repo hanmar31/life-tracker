@@ -104,6 +104,18 @@ class DailyView extends HTMLElement {
     dayNameDiv.classList.add('current-day-name')
     dayNameDiv.appendChild(dayName)
 
+    const prevBtn = document.createElement('button')
+    prevBtn.classList.add('prev-button')
+    prevBtn.textContent = '<-- Previous Day'
+
+    const nextBtn = document.createElement('button')
+    nextBtn.classList.add('next-button')
+    nextBtn.textContent = 'Next day -->'
+
+    const changeDateDiv = document.createElement('div')
+    changeDateDiv.classList.add('change-date')
+    changeDateDiv.append(prevBtn, dateDiv, nextBtn)
+
     const dailyList = document.createElement('habit-list')
     dailyList.habits = this._habits.filter(habit => habit.frequency === 'daily')
 
@@ -121,7 +133,21 @@ class DailyView extends HTMLElement {
       }))
     })
 
-    wrapper.append(dateDiv, dayNameDiv)
+    prevBtn.addEventListener('click', () => {
+      this.dispatchEvent(new CustomEvent('change-date', {
+        detail: { direction: 'prev' },
+        bubbles: true
+      }))
+    })
+
+    nextBtn.addEventListener('click', () => {
+      this.dispatchEvent(new CustomEvent('change-date', {
+        detail: { direction: 'next' },
+        bubbles: true
+      }))
+    })
+
+    wrapper.append(changeDateDiv, dayNameDiv)
     wrapper.appendChild(dailyList)
     shadow.appendChild(wrapper)
   }
