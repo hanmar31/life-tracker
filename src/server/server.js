@@ -3,6 +3,8 @@
  * @version 1.0.0
  */
 
+import './config.js'
+import './db.js'
 import { createServer } from 'http'
 import app from './app.js'
 
