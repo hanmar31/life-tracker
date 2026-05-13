@@ -24,6 +24,7 @@ class HabitApp extends HTMLElement {
     this.view = 'list'
     this.habits = []
     this.currentDate = new Date()
+    this.editingHabit = null
   }
 
   /**
@@ -79,6 +80,8 @@ class HabitApp extends HTMLElement {
       this.renderWeeklyView(wrapper)
     } else if (this.view === 'monthly') {
       this.renderMonthlyView(wrapper)
+    } else if (this.view === 'edit') {
+      this.renderEditView(wrapper)
     } else {
       this.renderListView(wrapper)
     }
@@ -153,6 +156,20 @@ class HabitApp extends HTMLElement {
   }
 
   /**
+   * Handles editing a habit.
+   *
+   * @param {CustomEvent} e - Delete habit.
+   */
+  async handleEditHabit (e) {
+    const habit = this.habits.find(h => h._id === e.detail.id)
+    if (habit) {
+      this.editingHabit = habit
+      this.view = 'edit'
+      this.render()
+    }
+  }
+
+  /**
    * Handles deleting a habit.
    *
    * @param {CustomEvent} e - Delete habit.
@@ -178,6 +195,10 @@ class HabitApp extends HTMLElement {
 
     dailyView.addEventListener('toggle-habit', (e) => {
       this.handleToggleHabit(e)
+    })
+
+    dailyView.addEventListener('edit-habit', async (e) => {
+      await this.handleEditHabit(e)
     })
 
     dailyView.addEventListener('delete-habit', async (e) => {
@@ -212,6 +233,10 @@ class HabitApp extends HTMLElement {
       this.handleToggleHabit(e)
     })
 
+    weeklyView.addEventListener('edit-habit', async (e) => {
+      await this.handleEditHabit(e)
+    })
+
     weeklyView.addEventListener('delete-habit', async (e) => {
       await this.handleDeleteHabit(e)
     })
@@ -244,6 +269,10 @@ class HabitApp extends HTMLElement {
       this.handleToggleHabit(e)
     })
 
+    monthlyView.addEventListener('edit-habit', async (e) => {
+      await this.handleEditHabit(e)
+    })
+
     monthlyView.addEventListener('delete-habit', async (e) => {
       await this.handleDeleteHabit(e)
     })
@@ -263,6 +292,61 @@ class HabitApp extends HTMLElement {
   }
 
   /**
+   * Renders the edit habit view.
+   *
+   * @param {ShadowRoot} wrapper the component's shadow root.
+   */
+  renderEditView (wrapper) {
+    const input = document.createElement('input')
+    input.value = this.editingHabit.name
+
+    const select = document.createElement('select')
+    const options = ['daily', 'weekly', 'monthly']
+    options.forEach(value => {
+      const option = document.createElement('option')
+      option.value = value
+      option.textContent = value
+      if (value === this.editingHabit.frequency) {
+        option.selected = true
+      }
+      select.appendChild(option)
+    })
+
+    const saveBtn = document.createElement('button')
+    saveBtn.textContent = 'Save'
+
+    const cancelBtn = document.createElement('button')
+    cancelBtn.textContent = 'Cancel'
+
+    cancelBtn.addEventListener('click', () => {
+      this.editingHabit = null
+      this.view = 'daily'
+      this.render()
+    })
+
+    saveBtn.addEventListener('click', async (e) => {
+      const res = await fetch(`/api/v1/habits/${this.editingHabit._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: input.value,
+          frequency: select.value
+        })
+      })
+      const updatedHabit = await res.json()
+
+      this.habits = this.habits.map(h => h._id === updatedHabit._id ? updatedHabit : h)
+      this.editingHabit = null
+      this.view = 'daily'
+      this.render()
+    })
+
+    wrapper.append(input, select, saveBtn, cancelBtn)
+  }
+
+  /**
    * Renders the habit list view.
    *
    * @param {ShadowRoot} wrapper the component's shadow root
@@ -270,6 +354,10 @@ class HabitApp extends HTMLElement {
   renderListView (wrapper) {
     const list = document.createElement('habit-list')
     list.habits = this.habits
+
+    list.addEventListener('edit-habit', async (e) => {
+      await this.handleEditHabit(e)
+    })
 
     wrapper.appendChild(list)
   }

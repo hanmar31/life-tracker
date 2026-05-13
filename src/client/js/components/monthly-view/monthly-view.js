@@ -117,6 +117,13 @@ class MonthlyView extends HTMLElement {
       }))
     })
 
+    monthList.addEventListener('edit-habit', (e) => {
+      this.dispatchEvent(new CustomEvent('edit-habit', {
+        detail: e.detail,
+        bubbles: true
+      }))
+    })
+
     monthList.addEventListener('delete-habit', (e) => {
       this.dispatchEvent(new CustomEvent('delete-habit', {
         detail: e.detail,

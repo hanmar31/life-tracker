@@ -39,3 +39,13 @@ button:hover {
 .create-button {
     text-align: right;
 }
+
+select {
+    background: #bbb4e9;
+    font-size: medium;
+}
+
+input {
+    background: #cac6e2;
+    font-size: medium;
+}

@@ -135,6 +135,13 @@ class WeeklyView extends HTMLElement {
       }))
     })
 
+    weekList.addEventListener('edit-habit', (e) => {
+      this.dispatchEvent(new CustomEvent('edit-habit', {
+        detail: e.detail,
+        bubbles: true
+      }))
+    })
+
     weekList.addEventListener('delete-habit', (e) => {
       this.dispatchEvent(new CustomEvent('delete-habit', {
         detail: e.detail,

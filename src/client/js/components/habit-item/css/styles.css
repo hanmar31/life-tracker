@@ -47,7 +47,6 @@ li.done {
 .delete-btn {
     background: #7871AA;
     font-size: medium;
-    margin-left: auto;
     border-radius: 8px;
     color: #cfcbf3;
 
@@ -56,4 +55,23 @@ li.done {
 .delete-btn:hover {
     background: #656099;
     transition: background .2s;
+}
+
+.edit-btn {
+    background: #7871AA;
+    font-size: medium;
+    margin-left: 10px;
+    border-radius: 8px;
+    color: #cfcbf3;
+}
+
+.edit-btn:hover {
+    background: #656099;
+    transition: background .2s;
+}
+
+.button-div {
+margin-left: auto;
+display: flex;
+gap: 5px;
 }

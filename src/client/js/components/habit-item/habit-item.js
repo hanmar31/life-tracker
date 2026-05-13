@@ -67,7 +67,11 @@ class HabitItem extends HTMLElement {
 
     deleteBtn.classList.add('delete-btn')
 
-    li.append(nameEl, freqEl, editBtn, deleteBtn)
+    const btnDiv = document.createElement('div')
+    btnDiv.classList.add('button-div')
+    btnDiv.append(editBtn, deleteBtn)
+
+    li.append(nameEl, freqEl, btnDiv)
 
     editBtn.addEventListener('click', () => {
       this.dispatchEvent(new CustomEvent('edit-habit', {

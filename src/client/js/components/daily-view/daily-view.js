@@ -126,6 +126,13 @@ class DailyView extends HTMLElement {
       }))
     })
 
+    dailyList.addEventListener('edit-habit', (e) => {
+      this.dispatchEvent(new CustomEvent('edit-habit', {
+        detail: e.detail,
+        bubbles: true
+      }))
+    })
+
     dailyList.addEventListener('delete-habit', (e) => {
       this.dispatchEvent(new CustomEvent('delete-habit', {
         detail: e.detail,
