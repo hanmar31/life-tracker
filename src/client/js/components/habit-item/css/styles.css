@@ -1,7 +1,7 @@
 li {
     display: flex;
     align-items: center;
-    background: #96899e;
+    background: #9087BF;
     padding: 10px;
     margin-bottom: 5px;
     margin-right: 300px;
@@ -10,7 +10,7 @@ li {
 }
 
 li:hover {
-    background: #8c7599;
+    background: #7970A8;
     transition: background .2s;
     transform: translateY(-5px);
     box-shadow: 0 10px 15px -3px #686868;
@@ -33,22 +33,22 @@ li.done {
 }
 
 .daily {
-    background: green;
+    background: rgb(79, 128, 79);
 }
 
 .weekly {
-    background:teal;
+    background:rgba(147, 209, 209, 0.788);
 }
 
 .monthly {
-    background: goldenrod;
+    background: rgb(204, 171, 88);
 }
 
 .delete-btn {
     background: #7871AA;
     font-size: medium;
     border-radius: 8px;
-    color: #cfcbf3;
+    color: #f0f0f0;
 
 }
 
@@ -62,7 +62,7 @@ li.done {
     font-size: medium;
     margin-left: 10px;
     border-radius: 8px;
-    color: #cfcbf3;
+    color: #f0f0f0;
 }
 
 .edit-btn:hover {
