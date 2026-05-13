@@ -95,6 +95,7 @@ class HabitApp extends HTMLElement {
     dailyBtn.textContent = 'Today'
 
     dailyBtn.addEventListener('click', () => {
+      this.currentDate = new Date()
       this.view = 'daily'
       this.render()
     })
@@ -103,6 +104,7 @@ class HabitApp extends HTMLElement {
     weekBtn.textContent = 'This week'
 
     weekBtn.addEventListener('click', () => {
+      this.currentDate = new Date()
       this.view = 'weekly'
       this.render()
     })
@@ -111,6 +113,7 @@ class HabitApp extends HTMLElement {
     monthBtn.textContent = 'This month'
 
     monthBtn.addEventListener('click', () => {
+      this.currentDate = new Date()
       this.view = 'monthly'
       this.render()
     })

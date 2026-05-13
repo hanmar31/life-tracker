@@ -1,4 +1,4 @@
 # Life Tracker
 
 
-A tracker for dailiy, weekly, and monthly habits.
+A tracker for daily, weekly, and monthly habits.
