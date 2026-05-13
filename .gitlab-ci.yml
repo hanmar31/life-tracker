@@ -10,3 +10,13 @@ lint:
         - npm run lint
     artifacts:
         expire_in: 1 hr
+
+test:
+    stage: test
+    image: node:20
+    before_script:
+        - npm ci
+    script:
+        - npm test
+    artifacts:
+        expire_in: 1 hr
