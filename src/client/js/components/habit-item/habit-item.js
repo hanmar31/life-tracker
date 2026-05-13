@@ -73,14 +73,16 @@ class HabitItem extends HTMLElement {
 
     li.append(nameEl, freqEl, btnDiv)
 
-    editBtn.addEventListener('click', () => {
+    editBtn.addEventListener('click', (e) => {
+      e.stopPropagation()
       this.dispatchEvent(new CustomEvent('edit-habit', {
         detail: { id: (this.dataset.id) },
         bubbles: true
       }))
     })
 
-    deleteBtn.addEventListener('click', () => {
+    deleteBtn.addEventListener('click', (e) => {
+      e.stopPropagation()
       if (window.confirm('Are you sure you want to delete this habit')) {
         this.dispatchEvent(new CustomEvent('delete-habit', {
           detail: { id: (this.dataset.id) },
