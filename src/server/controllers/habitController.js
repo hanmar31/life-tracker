@@ -41,6 +41,32 @@ export const createHabit = async (req, res) => {
 }
 
 /**
+ * Edits a habit.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @returns {void}
+ */
+export const editHabit = async (req, res) => {
+  try {
+    const { name, frequency } = req.body
+    const habit = await Habit.findByIdAndUpdate(
+      req.params.id,
+      { name, frequency },
+      { new: true }
+    )
+
+    if (!habit) {
+      return res.status(404).json({ message: 'Habit not found' })
+    }
+
+    res.json(habit)
+  } catch (error) {
+    res.status(500).json({ message: 'Could not update habit.' })
+  }
+}
+
+/**
  * Deletes a habit.
  *
  * @param {object} req - Express request object.
