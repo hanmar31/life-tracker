@@ -1,0 +1,12 @@
+stages: 
+    - test
+
+lint:
+    stage: test
+    image: node:20
+    before_script:
+        - npm ci
+    script:
+        - npm run lint
+    artifacts:
+        expire_in: 1 hr
