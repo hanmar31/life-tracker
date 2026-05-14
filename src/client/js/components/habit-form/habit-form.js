@@ -85,14 +85,22 @@ class HabitForm extends HTMLElement {
   createHabit () {
     const name = this.input.value.trim()
     const frequency = this.select.value
+    const existing = this.shadowRoot.querySelector('.error')
+    if (existing) existing.remove()
 
     if (!name) {
       const errMessage = document.createElement('p')
       errMessage.textContent = 'Habit name cannot be empty'
       errMessage.classList.add('error')
-
       this.shadowRoot.appendChild(errMessage)
+      return errMessage
+    }
 
+    if (name.length > 30) {
+      const errMessage = document.createElement('p')
+      errMessage.textContent = 'Habit name cannot be longer than 30 characters'
+      errMessage.classList.add('error')
+      this.shadowRoot.appendChild(errMessage)
       return errMessage
     }
 

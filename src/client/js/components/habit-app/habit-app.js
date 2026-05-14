@@ -325,6 +325,26 @@ class HabitApp extends HTMLElement {
     })
 
     saveBtn.addEventListener('click', async (e) => {
+      const name = input.value.trim()
+
+      const existing = this.shadowRoot.querySelector('.error')
+      if (existing) existing.remove()
+
+      if (!name) {
+        const errMessage = document.createElement('p')
+        errMessage.textContent = 'Habit name cannot be empty'
+        errMessage.classList.add('error')
+        wrapper.appendChild(errMessage)
+        return errMessage
+      }
+
+      if (name.length > 30) {
+        const errMessage = document.createElement('p')
+        errMessage.textContent = 'Habit name cannot be longer than 30 characters'
+        errMessage.classList.add('error')
+        wrapper.appendChild(errMessage)
+        return errMessage
+      }
       const res = await fetch(`/api/v1/habits/${this.editingHabit._id}`, {
         method: 'PUT',
         headers: {

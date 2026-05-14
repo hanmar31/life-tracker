@@ -49,3 +49,14 @@ input {
     background: #cac6e2;
     font-size: medium;
 }
+
+.error {
+    color:rgba(161, 19, 19, 0.774);
+    font-weight: bolder;
+    font-size: small;
+    background: rgb(167, 164, 164);
+    padding: 5px;
+    margin-left: 2px;
+    border-radius:20px;
+    box-shadow: 7px 13px 15px 0px rgb(146, 137, 163);
+}
