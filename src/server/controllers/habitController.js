@@ -16,14 +16,38 @@ export const getHabits = async (req, res) => {
 }
 
 /**
+ * Validates the habit before creating or updating.
+ *
+ * @param {string} name - the habit name.
+ * @param {string} frequency - the habit frequency.
+ * @returns {string|null} Validation error message or null if valid.
+ */
+const validateHabit = (name, frequency) => {
+  const validFrequencies = ['daily', 'weekly', 'monthly']
+  if (!name || !name.trim()) {
+    return 'Habit name cannot be empty'
+  }
+  if (name.length > 30) {
+    return 'Habit name is too long'
+  }
+  if (!validFrequencies.includes(frequency)) {
+    return 'Frequency must be daily, weekly, or monthly'
+  }
+  return null
+}
+/**
  * Creates a new habit.
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
+ * @returns {void}
  */
 export const createHabit = async (req, res) => {
   try {
     const { name, frequency } = req.body
+
+    const error = validateHabit(name, frequency)
+    if (error) return res.status(400).json({ message: error })
 
     const habit = new Habit({
       name,
@@ -50,6 +74,10 @@ export const createHabit = async (req, res) => {
 export const editHabit = async (req, res) => {
   try {
     const { name, frequency } = req.body
+
+    const error = validateHabit(name, frequency)
+    if (error) return res.status(400).json({ message: error })
+
     const habit = await Habit.findByIdAndUpdate(
       req.params.id,
       { name, frequency },
