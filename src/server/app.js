@@ -5,6 +5,8 @@
 
 import express from 'express'
 import path from 'path'
+import helmet from 'helmet'
+import { rateLimit } from 'express-rate-limit'
 import { fileURLToPath } from 'url'
 import habitRoutes from './routes/habitRoutes.js'
 
@@ -12,6 +14,14 @@ const app = express()
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+app.use(helmet())
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+})
+app.use('/api', limiter)
 
 app.use(express.json())
 
