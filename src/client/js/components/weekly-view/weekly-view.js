@@ -125,6 +125,39 @@ class WeeklyView extends HTMLElement {
 
     wrapper.appendChild(changeDateDiv)
 
+    const weekDays = []
+
+    for (let i = 0; i < 7; i++) {
+      const day = new Date(monday)
+      day.setDate(monday.getDate() + i)
+
+      weekDays.push(day)
+    }
+
+    const daysContainer = document.createElement('div')
+    daysContainer.classList.add('days-container')
+
+    weekDays.forEach(day => {
+      const weekCol = document.createElement('div')
+      weekCol.classList.add('week-col')
+
+      const weekdayName = day.toLocaleDateString('en', {
+        weekday: 'short'
+      })
+
+      const weekday = document.createElement('p')
+      weekday.textContent = weekdayName
+
+      const date = document.createElement('p')
+      date.textContent = day.getDate()
+
+      weekCol.append(weekday, date)
+
+      daysContainer.appendChild(weekCol)
+    })
+
+    wrapper.appendChild(daysContainer)
+
     const weekList = document.createElement('habit-list')
     weekList.habits = this._habits.filter(habit => habit.frequency === 'weekly')
 
