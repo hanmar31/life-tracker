@@ -16,6 +16,14 @@ export const getHabits = async (req, res) => {
 }
 
 /**
+ * Sanitizes a habit name by removing HTML tags.
+ *
+ * @param {string} name - the habit name.
+ * @returns {string} the sanitized name.
+ */
+const sanitizeName = (name) => name.replace(/<[^>]*>/g, '').trim()
+
+/**
  * Validates the habit before creating or updating.
  *
  * @param {string} name - the habit name.
@@ -24,10 +32,13 @@ export const getHabits = async (req, res) => {
  */
 const validateHabit = (name, frequency) => {
   const validFrequencies = ['daily', 'weekly', 'monthly']
-  if (!name || !name.trim()) {
+
+  const cleanName = sanitizeName(name)
+
+  if (!cleanName || !cleanName.trim()) {
     return 'Habit name cannot be empty'
   }
-  if (name.length > 30) {
+  if (cleanName.length > 30) {
     return 'Habit name is too long'
   }
   if (!validFrequencies.includes(frequency)) {
@@ -45,12 +56,13 @@ const validateHabit = (name, frequency) => {
 export const createHabit = async (req, res) => {
   try {
     const { name, frequency } = req.body
+    const cleanName = sanitizeName(name)
 
-    const error = validateHabit(name, frequency)
+    const error = validateHabit(cleanName, frequency)
     if (error) return res.status(400).json({ message: error })
 
     const habit = new Habit({
-      name,
+      name: cleanName,
       frequency
     })
 
@@ -74,13 +86,14 @@ export const createHabit = async (req, res) => {
 export const editHabit = async (req, res) => {
   try {
     const { name, frequency } = req.body
+    const cleanName = sanitizeName(name)
 
-    const error = validateHabit(name, frequency)
+    const error = validateHabit(cleanName, frequency)
     if (error) return res.status(400).json({ message: error })
 
     const habit = await Habit.findByIdAndUpdate(
       req.params.id,
-      { name, frequency },
+      { name: cleanName, frequency },
       { new: true }
     )
 
