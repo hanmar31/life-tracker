@@ -26,7 +26,7 @@ app.use('/api', limiter)
 
 app.use(express.json())
 
-app.use(mongoSanitize())
+app.use(mongoSanitize({ sanitizeObjects: ['body'] }))
 
 app.use(express.static(path.join(__dirname, './../client')))
 
