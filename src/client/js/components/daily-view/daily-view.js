@@ -117,7 +117,14 @@ class DailyView extends HTMLElement {
     changeDateDiv.append(prevBtn, dateDiv, nextBtn)
 
     const dailyList = document.createElement('habit-list')
-    dailyList.habits = this._habits.filter(habit => habit.frequency === 'daily')
+    const todayKey = this._currentDate.toISOString().split('T')[0]
+
+    dailyList.habits = this._habits
+      .filter(habit => habit.frequency === 'daily')
+      .map(habit => ({
+        ...habit,
+        completed: habit.completedDates.includes(todayKey)
+      }))
 
     dailyList.addEventListener('toggle-habit', (e) => {
       this.dispatchEvent(new CustomEvent('toggle-habit', {

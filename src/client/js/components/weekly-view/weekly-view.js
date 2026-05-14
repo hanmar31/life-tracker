@@ -159,7 +159,14 @@ class WeeklyView extends HTMLElement {
     wrapper.appendChild(daysContainer)
 
     const weekList = document.createElement('habit-list')
-    weekList.habits = this._habits.filter(habit => habit.frequency === 'weekly')
+    const mondayKey = monday.toISOString().split('T')[0]
+
+    weekList.habits = this._habits
+      .filter(habit => habit.frequency === 'weekly')
+      .map(habit => ({
+        ...habit,
+        completed: habit.completedDates.includes(mondayKey)
+      }))
 
     weekList.addEventListener('toggle-habit', (e) => {
       this.dispatchEvent(new CustomEvent('toggle-habit', {

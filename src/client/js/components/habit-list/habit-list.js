@@ -73,7 +73,7 @@ class HabitList extends HTMLElement {
       item.dataset.id = habit._id
       item.dataset.name = habit.name
       item.dataset.frequency = habit.frequency
-      item.dataset.completed = habit.completed
+      item.dataset.completed = habit.completed ?? false
 
       item.addEventListener('toggle-habit', (e) => {
         this.dispatchEvent(new CustomEvent('toggle-habit', {

@@ -109,7 +109,15 @@ class MonthlyView extends HTMLElement {
     wrapper.appendChild(changeDateDiv)
 
     const monthList = document.createElement('habit-list')
-    monthList.habits = this._habits.filter(habit => habit.frequency === 'monthly')
+    const monthKey = `${year}-${String(this._currentDate.getMonth() + 1).padStart(2, '0')}`
+
+    monthList.habits = this._habits
+      .filter(habit => habit.frequency === 'monthly')
+      .map(habit => ({
+        ...habit,
+        completed: habit.completedDates.includes(monthKey)
+      }))
+
     monthList.addEventListener('toggle-habit', (e) => {
       this.dispatchEvent(new CustomEvent('toggle-habit', {
         detail: e.detail,

@@ -9,9 +9,9 @@ const habitSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  completed: {
-    type: Boolean,
-    default: false
+  completedDates: {
+    type: [String],
+    default: []
   }
 })
 

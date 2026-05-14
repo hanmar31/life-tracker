@@ -98,7 +98,7 @@ export const editHabit = async (req, res) => {
     const habit = await Habit.findByIdAndUpdate(
       req.params.id,
       { name: cleanName, frequency },
-      { new: true }
+      { returnDocument: 'after' }
     )
 
     if (!habit) {
@@ -108,6 +108,43 @@ export const editHabit = async (req, res) => {
     res.json(habit)
   } catch (error) {
     res.status(500).json({ message: 'Could not update habit.' })
+  }
+}
+
+/**
+ * Toggles a habit as completed or uncompleted.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @returns {void}
+ */
+export const toggleHabit = async (req, res) => {
+  try {
+    const { periodKey } = req.body
+
+    const habit = await Habit.findById(req.params.id)
+
+    if (!habit) {
+      return res.status(404).json({
+        message: 'Habit not found'
+      })
+    }
+
+    if (habit.completedDates.includes(periodKey)) {
+      habit.completedDates = habit.completedDates.filter(
+        date => date !== periodKey
+      )
+    } else {
+      habit.completedDates.push(periodKey)
+    }
+
+    await habit.save()
+
+    res.json(habit)
+  } catch (error) {
+    res.status(500).json({
+      message: 'Could not toggle habit'
+    })
   }
 }
 

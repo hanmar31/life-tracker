@@ -145,14 +145,49 @@ class HabitApp extends HTMLElement {
    *
    * @param {CustomEvent} e - Toggle event.
    */
-  handleToggleHabit (e) {
+  async handleToggleHabit (e) {
     const habit = this.habits.find(h => h._id === e.detail.id)
+    if (!habit) return
 
-    if (habit) {
-      habit.completed = !habit.completed
+    const today = new Date()
+    const year = today.getFullYear()
+    const month = String(today.getMonth() + 1).padStart(2, '0')
 
-      this.render()
+    let periodKey
+
+    if (habit.frequency === 'daily') {
+      periodKey = new Date().toISOString().split('T')[0]
     }
+    if (habit.frequency === 'weekly') {
+      const monday = new Date(today)
+      const day = monday.getDay()
+      const diff = day === 0 ? -6 : 1 - day
+
+      monday.setDate(monday.getDate() + diff)
+
+      periodKey = monday.toISOString().split('T')[0]
+    }
+    if (habit.frequency === 'monthly') {
+      periodKey = `${year}-${month}`
+    }
+
+    const res = await fetch(`/api/v1/habits/${habit._id}/toggle`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        periodKey
+      })
+    })
+
+    const updatedHabit = await res.json()
+
+    this.habits = this.habits.map(h =>
+      h._id === updatedHabit._id ? updatedHabit : h
+    )
+
+    this.render()
   }
 
   /**
