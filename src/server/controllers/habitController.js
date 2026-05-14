@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import Habit from '../models/habit.js'
 
 /**
@@ -85,6 +86,9 @@ export const createHabit = async (req, res) => {
  */
 export const editHabit = async (req, res) => {
   try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(400).json({ message: 'Invalid habit ID ' })
+    }
     const { name, frequency } = req.body
     const cleanName = sanitizeName(name)
 
@@ -116,6 +120,9 @@ export const editHabit = async (req, res) => {
  */
 export const deleteHabit = async (req, res) => {
   try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(400).json({ message: 'Invalid habit ID ' })
+    }
     const habit = await Habit.findByIdAndDelete(req.params.id)
 
     if (!habit) {
