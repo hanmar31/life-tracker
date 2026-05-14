@@ -7,7 +7,6 @@ import express from 'express'
 import path from 'path'
 import helmet from 'helmet'
 import { rateLimit } from 'express-rate-limit'
-import mongoSanitize from 'express-mongo-sanitize'
 import { fileURLToPath } from 'url'
 import habitRoutes from './routes/habitRoutes.js'
 
@@ -25,8 +24,6 @@ const limiter = rateLimit({
 app.use('/api', limiter)
 
 app.use(express.json())
-
-app.use(mongoSanitize({ sanitizeObjects: ['body'] }))
 
 app.use(express.static(path.join(__dirname, './../client')))
 
