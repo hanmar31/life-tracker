@@ -68,6 +68,13 @@
     box-sizing: border-box;
 }
 
+.week-col:hover {
+    background-color: #b6b4dd;
+    box-shadow: 0 10px 15px -3px #686868;
+    transform: translateY(-5px);
+    transition: all .2s;
+}
+
 .done {
     text-decoration: line-through;
     opacity: 0.6;
