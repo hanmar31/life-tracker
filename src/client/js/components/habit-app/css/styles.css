@@ -60,3 +60,11 @@ input {
     border-radius:20px;
     box-shadow: 7px 13px 15px 0px rgb(146, 137, 163);
 }
+
+.wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 16px;
+    box-sizing: border-box;
+}

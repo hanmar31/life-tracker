@@ -153,6 +153,7 @@ class WeeklyView extends HTMLElement {
         const dayKey = day.toISOString().split('T')[0]
         const isCompleted = habit.completedDates.includes(dayKey)
         habitItem.textContent = habit.name
+        habitItem.classList.add('daily-habit-item')
         if (isCompleted) habitItem.classList.add('done')
         dailyHabitsList.appendChild(habitItem)
       })
@@ -168,7 +169,12 @@ class WeeklyView extends HTMLElement {
       daysContainer.appendChild(weekCol)
     })
 
-    wrapper.appendChild(daysContainer)
+    const sidePanel = document.createElement('div')
+    sidePanel.classList.add('side-panel')
+
+    const sidePanelTitle = document.createElement('h3')
+    sidePanelTitle.textContent = 'Weekly Habits'
+    sidePanelTitle.classList.add('side-panel-title')
 
     const weekList = document.createElement('habit-list')
     const mondayKey = monday.toISOString().split('T')[0]
@@ -215,7 +221,11 @@ class WeeklyView extends HTMLElement {
       }))
     })
 
-    wrapper.appendChild(weekList)
+    sidePanel.append(sidePanelTitle, weekList)
+    const contentDiv = document.createElement('div')
+    contentDiv.classList.add('content')
+    contentDiv.append(daysContainer, sidePanel)
+    wrapper.appendChild(contentDiv)
     shadow.appendChild(wrapper)
   }
 }

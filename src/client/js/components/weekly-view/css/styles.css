@@ -1,3 +1,6 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
 .current-date{
     text-align: center;
 }
@@ -46,4 +49,73 @@
 .next-button:hover {
       background: #656099;
     animation: wiggle 0.3s ease-in-out infinite;
+}
+
+.days-container {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    flex: 3;
+}
+
+.week-col {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid #49447e;
+    background-color: #d5d3f5;;
+    border-radius: 8px;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.done {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    padding-right: 16px;
+}
+
+.daily-habit-item {
+    font-size: 95%;
+}
+
+.side-panel {
+    flex: 2;
+    background-color: #d5d3f5;
+    border: 1px solid #49447e;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.side-panel-title {
+    border-bottom: 1px solid #49447e;
+}
+
+.week-col p {
+    text-align: center;
+    font-weight: bold;
+    margin: 0 0 4px 0;
+    border-bottom: 1px solid #49447e;
+}
+
+.wrapper {
+    padding: 0 16px 16px 16px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.daily-habit-list li {
+    background-color: #bbb4e9;
+    border-radius: 4px;
+    padding: 3px 4px;
+    margin-bottom: 3px;
+}
+
+.daily-habit-list {
+    list-style-type: circle;
 }
