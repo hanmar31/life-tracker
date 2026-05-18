@@ -123,6 +123,10 @@ class DailyView extends HTMLElement {
       String(this._currentDate.getDate()).padStart(2, '0')
     ].join('-')
 
+    const listContainer = document.createElement('div')
+    listContainer.classList.add('list-container')
+    listContainer.appendChild(dailyList)
+
     dailyList.habits = this._habits
       .filter(habit => habit.frequency === 'daily')
       .map(habit => ({
@@ -166,7 +170,7 @@ class DailyView extends HTMLElement {
     })
 
     wrapper.append(changeDateDiv, dayNameDiv)
-    wrapper.appendChild(dailyList)
+    wrapper.appendChild(listContainer)
     shadow.appendChild(wrapper)
   }
 }

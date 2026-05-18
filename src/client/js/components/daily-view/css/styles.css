@@ -53,3 +53,7 @@
       background: #656099;
     animation: wiggle 0.3s ease-in-out infinite;
 }
+
+.list-container {
+    max-width: 88%;
+}

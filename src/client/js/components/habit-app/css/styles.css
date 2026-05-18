@@ -68,3 +68,7 @@ input {
     padding: 16px;
     box-sizing: border-box;
 }
+
+.list-container {
+    max-width: 88%;
+}

@@ -429,7 +429,11 @@ class HabitApp extends HTMLElement {
       await this.handleEditHabit(e)
     })
 
-    wrapper.appendChild(list)
+    const listContainer = document.createElement('div')
+    listContainer.classList.add('list-container')
+    listContainer.appendChild(list)
+
+    wrapper.appendChild(listContainer)
   }
 
   /**

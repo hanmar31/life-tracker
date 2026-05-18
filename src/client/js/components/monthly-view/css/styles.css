@@ -47,3 +47,73 @@
     background: #656099;
     animation: wiggle 0.3s ease-in-out infinite;
 }
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    flex: 4;
+}
+
+.calendar-header {
+    text-align: center;
+    font-weight: bold;
+    padding: 4px;
+    background-color: #49447e;
+    color: #f0f0f0;
+    border-radius: 4px;
+}
+
+.calendar-day {
+    border: 1px solid #49447e;
+    border-radius: 4px;
+    padding: 4px;
+    min-height: 100px;
+    background-color: #c6c2f7;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.calendar-day:hover {
+    background-color: #bbb4e9;
+    box-shadow: 0 10px 15px -3px #686868;
+    transform: translateY(-5px);
+    transition: all .2s;
+}
+
+.empty-day {
+    border: 1px solid #5b5786;
+    background-color: #cdc9f89a;
+    cursor: default;
+}
+
+.empty-day:hover {
+    background-color: #cdc9f89a;
+    box-shadow: none;
+    transform: none;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.side-panel {
+    flex: 1;
+    max-width: 550px;
+    background-color: #d5d3f5;
+    border: 1px solid #49447e;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.side-panel habit-list {
+    width: 100%;
+}
+
+ul {
+    padding-left: 0;
+    margin: 0;
+}
