@@ -4,11 +4,18 @@ import assert from 'assert'
 const habit = {
   name: 'Exercise',
   frequency: 'daily',
-  completed: false
+  completedDates: []
 }
 
 assert.strictEqual(habit.name, 'Exercise')
 assert.strictEqual(habit.frequency, 'daily')
-assert.strictEqual(habit.completed, false)
 
+const todayKey = '2026-05-18'
+
+habit.completedDates.push(todayKey)
+
+assert.strictEqual(
+  habit.completedDates.includes(todayKey),
+  true
+)
 console.log('All tests passed!')
