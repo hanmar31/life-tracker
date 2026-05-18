@@ -144,6 +144,18 @@ class WeeklyView extends HTMLElement {
       const weekdayName = day.toLocaleDateString('en', {
         weekday: 'short'
       })
+      const dailyHabits = this._habits.filter(habit => habit.frequency === 'daily')
+      const dailyHabitsList = document.createElement('ul')
+      dailyHabitsList.classList.add('daily-habit-list')
+
+      dailyHabits.forEach(habit => {
+        const habitItem = document.createElement('li')
+        const dayKey = day.toISOString().split('T')[0]
+        const isCompleted = habit.completedDates.includes(dayKey)
+        habitItem.textContent = habit.name
+        if (isCompleted) habitItem.classList.add('done')
+        dailyHabitsList.appendChild(habitItem)
+      })
 
       const weekday = document.createElement('p')
       weekday.textContent = weekdayName
@@ -151,7 +163,7 @@ class WeeklyView extends HTMLElement {
       const date = document.createElement('p')
       date.textContent = day.getDate()
 
-      weekCol.append(weekday, date)
+      weekCol.append(weekday, date, dailyHabitsList)
 
       daysContainer.appendChild(weekCol)
     })
