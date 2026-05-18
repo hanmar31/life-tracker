@@ -149,23 +149,32 @@ class HabitApp extends HTMLElement {
     const habit = this.habits.find(h => h._id === e.detail.id)
     if (!habit) return
 
-    const today = new Date()
-    const year = today.getFullYear()
-    const month = String(today.getMonth() + 1).padStart(2, '0')
+    const current = new Date(this.currentDate)
+
+    const year = current.getFullYear()
+    const month = String(current.getMonth() + 1).padStart(2, '0')
 
     let periodKey
 
     if (habit.frequency === 'daily') {
-      periodKey = new Date().toISOString().split('T')[0]
+      periodKey = [
+        current.getFullYear(),
+        String(current.getMonth() + 1).padStart(2, '0'),
+        String(current.getDate()).padStart(2, '0')
+      ].join('-')
     }
     if (habit.frequency === 'weekly') {
-      const monday = new Date(today)
+      const monday = new Date(current)
       const day = monday.getDay()
       const diff = day === 0 ? -6 : 1 - day
 
       monday.setDate(monday.getDate() + diff)
 
-      periodKey = monday.toISOString().split('T')[0]
+      periodKey = [
+        monday.getFullYear(),
+        String(monday.getMonth() + 1).padStart(2, '0'),
+        String(monday.getDate()).padStart(2, '0')
+      ].join('-')
     }
     if (habit.frequency === 'monthly') {
       periodKey = `${year}-${month}`
@@ -284,6 +293,12 @@ class HabitApp extends HTMLElement {
         newDate.setDate(newDate.getDate() + 7)
       }
       this.currentDate = newDate
+      this.render()
+    })
+
+    weeklyView.addEventListener('navigate-to-date', (e) => {
+      this.currentDate = e.detail.date
+      this.view = 'daily'
       this.render()
     })
 

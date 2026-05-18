@@ -117,7 +117,11 @@ class DailyView extends HTMLElement {
     changeDateDiv.append(prevBtn, dateDiv, nextBtn)
 
     const dailyList = document.createElement('habit-list')
-    const todayKey = this._currentDate.toISOString().split('T')[0]
+    const todayKey = [
+      this._currentDate.getFullYear(),
+      String(this._currentDate.getMonth() + 1).padStart(2, '0'),
+      String(this._currentDate.getDate()).padStart(2, '0')
+    ].join('-')
 
     dailyList.habits = this._habits
       .filter(habit => habit.frequency === 'daily')

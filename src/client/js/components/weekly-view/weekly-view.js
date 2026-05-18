@@ -167,6 +167,14 @@ class WeeklyView extends HTMLElement {
       weekCol.append(weekday, date, dailyHabitsList)
 
       daysContainer.appendChild(weekCol)
+
+      weekCol.addEventListener('click', () => {
+        this.dispatchEvent(new CustomEvent('navigate-to-date', {
+          detail: { date: day },
+          bubbles: true
+        }))
+      })
+      weekCol.style.cursor = 'pointer'
     })
 
     const sidePanel = document.createElement('div')
