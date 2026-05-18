@@ -153,7 +153,49 @@ class MonthlyView extends HTMLElement {
       }))
     })
 
-    wrapper.appendChild(monthList)
+    const monthNumber = this._currentDate.getMonth()
+    const daysInMonth = new Date(year, monthNumber + 1, 0).getDate()
+    const firstDayOfMonth = new Date(year, monthNumber, 1).getDay()
+    const firstDayOfWeek = (firstDayOfMonth + 6) % 7
+
+    const calendarGrid = document.createElement('div')
+    calendarGrid.classList.add('calendar-grid')
+
+    const dayHeaders = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    dayHeaders.forEach(day => {
+      const header = document.createElement('div')
+      header.classList.add('calendar-header')
+      header.textContent = day
+      calendarGrid.appendChild(header)
+    })
+
+    for (let i = 0; i < firstDayOfWeek; i++) {
+      const empty = document.createElement('div')
+      empty.classList.add('calendar-day', 'empty-day')
+      calendarGrid.appendChild(empty)
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const cell = document.createElement('div')
+      cell.classList.add('calendar-day')
+      cell.textContent = day
+      calendarGrid.appendChild(cell)
+    }
+
+    const sidePanel = document.createElement('div')
+    sidePanel.classList.add('side-panel')
+
+    const sidePanelTitle = document.createElement('h3')
+    sidePanelTitle.classList.add('side-panel-title')
+    sidePanel.textContent = 'Monthly Habits'
+
+    sidePanel.append(sidePanelTitle, monthList)
+
+    const contentDiv = document.createElement('div')
+    contentDiv.classList.add('content')
+    contentDiv.append(calendarGrid, sidePanel)
+
+    wrapper.appendChild(contentDiv)
     shadow.appendChild(wrapper)
   }
 }

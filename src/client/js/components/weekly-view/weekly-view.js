@@ -150,7 +150,11 @@ class WeeklyView extends HTMLElement {
 
       dailyHabits.forEach(habit => {
         const habitItem = document.createElement('li')
-        const dayKey = day.toISOString().split('T')[0]
+        const dayKey = [
+          day.getFullYear(),
+          String(day.getMonth() + 1).padStart(2, '0'),
+          String(day.getDate()).padStart(2, '0')
+        ].join('-')
         const isCompleted = habit.completedDates.includes(dayKey)
         habitItem.textContent = habit.name
         habitItem.classList.add('daily-habit-item')
@@ -185,7 +189,11 @@ class WeeklyView extends HTMLElement {
     sidePanelTitle.classList.add('side-panel-title')
 
     const weekList = document.createElement('habit-list')
-    const mondayKey = monday.toISOString().split('T')[0]
+    const mondayKey = [
+      monday.getFullYear(),
+      String(monday.getMonth() + 1).padStart(2, '0'),
+      String(monday.getDate()).padStart(2, '0')
+    ].join('-')
 
     weekList.habits = this._habits
       .filter(habit => habit.frequency === 'weekly')
