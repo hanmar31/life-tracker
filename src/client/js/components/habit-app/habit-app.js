@@ -338,6 +338,18 @@ class HabitApp extends HTMLElement {
       this.render()
     })
 
+    monthlyView.addEventListener('navigate-to-date', (e) => {
+      this.currentDate = e.detail.date
+      this.view = 'daily'
+      this.render()
+    })
+
+    monthlyView.addEventListener('navigate-to-week', (e) => {
+      this.currentDate = e.detail.date
+      this.view = 'weekly'
+      this.render()
+    })
+
     wrapper.appendChild(monthlyView)
   }
 

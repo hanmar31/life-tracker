@@ -67,12 +67,28 @@
 .calendar-day {
     border: 1px solid #49447e;
     border-radius: 4px;
-    padding: 4px;
+    padding: 6px;
     min-height: 100px;
     background-color: #c6c2f7;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-size: 0.9rem;
+}
+
+.day-number {
+    position: absolute;
+    top: 4px;
+    left: 6px;
     font-weight: bold;
     font-size: 0.9rem;
+}
+
+.day-ratio {
+    font-size: 1.2rem;
 }
 
 .calendar-day:hover {
@@ -113,7 +129,42 @@
     width: 100%;
 }
 
-ul {
-    padding-left: 0;
-    margin: 0;
+.week-column {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.week-column-header {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+    background-color: #49447e;
+    color: #f0f0f0;
+    border-radius: 4px;
+}
+
+.week-cell {
+    border: 1px solid #49447e;
+    border-radius: 4px;
+    padding: 6px;
+    min-height: 100px;
+    background-color: #c6c2f7;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.week-cell:hover {
+    background-color: #bbb4e9;
+}
+
+.week-row-highlight {
+    background-color: #a79de7;
+    box-shadow: 0 10px 15px -1px #686868;
+    transform: translate(-10px);
+    transition: all .2s;
 }

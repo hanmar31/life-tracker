@@ -169,18 +169,101 @@ class MonthlyView extends HTMLElement {
       calendarGrid.appendChild(header)
     })
 
+    const weekRows = []
+    let currentWeekCells = []
+    let columnIndex = firstDayOfWeek
+
     for (let i = 0; i < firstDayOfWeek; i++) {
       const empty = document.createElement('div')
       empty.classList.add('calendar-day', 'empty-day')
       calendarGrid.appendChild(empty)
+      currentWeekCells.push(empty)
     }
 
     for (let day = 1; day <= daysInMonth; day++) {
       const cell = document.createElement('div')
       cell.classList.add('calendar-day')
-      cell.textContent = day
+
+      const dayKey = `${year}-${String(monthNumber + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+      const dailyHabits = this._habits.filter(h => h.frequency === 'daily')
+      const completedCount = dailyHabits.filter(h => h.completedDates.includes(dayKey)).length
+      const totalCount = dailyHabits.length
+
+      const dayNumber = document.createElement('span')
+      dayNumber.textContent = day
+      dayNumber.classList.add('day-number')
+
+      const ratio = document.createElement('span')
+      ratio.textContent = totalCount > 0 ? `${completedCount}/${totalCount} completed` : ''
+      ratio.classList.add('day-ratio')
+
+      cell.append(dayNumber, ratio)
+
+      cell.addEventListener('click', () => {
+        const clickedDate = new Date(year, monthNumber, day)
+        this.dispatchEvent(new CustomEvent('navigate-to-date', {
+          detail: { date: clickedDate },
+          bubbles: true
+        }))
+      })
       calendarGrid.appendChild(cell)
+      currentWeekCells.push(cell)
+      columnIndex++
+
+      if (columnIndex % 7 === 0) {
+        weekRows.push([...currentWeekCells])
+        currentWeekCells = []
+      }
     }
+
+    if (currentWeekCells.length > 0) {
+      weekRows.push([...currentWeekCells])
+    }
+
+    const weekColumn = document.createElement('div')
+    weekColumn.classList.add('week-column')
+
+    const weekColumnHeader = document.createElement('div')
+    weekColumnHeader.classList.add('week-column-header')
+    weekColumnHeader.textContent = 'Weekly Habits'
+    weekColumn.appendChild(weekColumnHeader)
+
+    const weeklyHabits = this._habits.filter(h => h.frequency === 'weekly')
+
+    weekRows.forEach((rowCell, rowIndex) => {
+      const weekCell = document.createElement('div')
+      weekCell.classList.add('week-cell')
+
+      const monday = new Date(year, monthNumber, 1 - firstDayOfWeek + (rowIndex * 7))
+
+      const mondayKey = [
+        monday.getFullYear(),
+        String(monday.getMonth() + 1).padStart(2, '0'),
+        String(monday.getDate()).padStart(2, '0')
+      ].join('-')
+
+      const completed = weeklyHabits.filter(h => h.completedDates.includes(mondayKey)).length
+      const total = weeklyHabits.length
+
+      weekCell.textContent = total > 0 ? `${completed}/${total} completed` : '-'
+
+      weekCell.addEventListener('click', () => {
+        this.dispatchEvent(new CustomEvent('navigate-to-week', {
+          detail: { date: monday },
+          bubbles: true
+        }))
+      })
+      weekCell.addEventListener('mouseenter', () => {
+        rowCell.forEach(cell => cell.classList.add('week-row-highlight'))
+      })
+
+      weekCell.addEventListener('mouseleave', () => {
+        rowCell.forEach(cell => cell.classList.remove('week-row-highlight'))
+        weekCell.classList.remove('week-row-highlight')
+      })
+
+      weekColumn.appendChild(weekCell)
+    })
 
     const sidePanel = document.createElement('div')
     sidePanel.classList.add('side-panel')
@@ -193,7 +276,7 @@ class MonthlyView extends HTMLElement {
 
     const contentDiv = document.createElement('div')
     contentDiv.classList.add('content')
-    contentDiv.append(calendarGrid, sidePanel)
+    contentDiv.append(calendarGrid, weekColumn, sidePanel)
 
     wrapper.appendChild(contentDiv)
     shadow.appendChild(wrapper)
