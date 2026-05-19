@@ -220,6 +220,15 @@ class MonthlyView extends HTMLElement {
       weekRows.push([...currentWeekCells])
     }
 
+    const lastRowCells = weekRows[weekRows.length - 1]
+    const remaningCells = 7 - lastRowCells.length
+    for (let i = 0; i < remaningCells; i++) {
+      const empty = document.createElement('div')
+      empty.classList.add('calendar-day', 'empty-day')
+      calendarGrid.appendChild(empty)
+      lastRowCells.push(empty)
+    }
+
     const weekColumn = document.createElement('div')
     weekColumn.classList.add('week-column')
 
