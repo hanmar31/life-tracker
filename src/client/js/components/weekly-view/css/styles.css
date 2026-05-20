@@ -97,6 +97,7 @@
     border: 1px solid #49447e;
     padding: 5px;
     border-radius: 5px;
+    max-width: 370px;
 }
 
 .side-panel-title {

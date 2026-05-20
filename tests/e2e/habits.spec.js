@@ -37,3 +37,31 @@ test('habit name cannot be empty', async ({ page }) => {
   await expect(page.getByText('Habit name cannot be empty')).toBeVisible()
   await expect(page.getByText('TEST_')).not.toBeVisible()
 })
+
+test('delete a habit', async ({ page }) => {
+  await page.goto('/')
+
+  await page.getByRole('button', { name: 'Create Habit' }).click()
+
+  await page
+    .getByRole('textbox', { name: 'New habit..' })
+    .fill('TEST_Delete')
+
+  await page.getByRole('button', { name: 'Add' }).click()
+
+  const habitItem = page.locator('li').filter({
+    hasText: 'TEST_Delete'
+  })
+
+  await expect(habitItem).toBeVisible()
+
+  await habitItem
+    .getByRole('button', { name: /delete/i })
+    .click()
+
+  await page.reload()
+
+  await expect(
+    page.getByText('TEST_Delete')
+  ).not.toBeVisible()
+})

@@ -45,7 +45,7 @@ export default defineConfig({
       use: { ...devices['Desktop Firefox'] }
     }
 
-    // Issue with shadow DOM limitation
+    // Issue with shadow DOM limitation.
     // {
     //   name: 'webkit',
     //   use: { ...devices['Desktop Safari'] }
