@@ -1,8 +1,10 @@
 stages: 
+    - lint
     - test
+    - e2e
 
 lint:
-    stage: test
+    stage: lint
     image: node:20
     before_script:
         - npm ci
@@ -19,4 +21,16 @@ test:
     script:
         - npm test
     artifacts:
+        expire_in: 1 hr
+
+e2e:
+    stage: e2e
+    image: mcr.microsoft.com/playwright:v1.52.0-jammy
+    before_script:
+        - npm ci
+    script:
+        - npx playwright test --project=chromium
+    artifacts:
+        paths:
+         - playwright-report/
         expire_in: 1 hr
