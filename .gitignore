@@ -197,3 +197,10 @@ public.pem
 .env.production
 
 # End of https://www.gitignore.io/api/node,linux,macos,windows,visualstudiocode
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
