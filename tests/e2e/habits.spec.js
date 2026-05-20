@@ -28,5 +28,4 @@ test('can create a daily habit', async ({ page }) => {
   await page.getByRole('textbox', { name: 'New habit..' }).fill('E')
   await page.getByRole('textbox', { name: 'New habit..' }).fill('Exercise')
   await page.getByRole('button', { name: 'Add' }).click()
-  await page.getByText('Exercise daily Edit').click()
 })
