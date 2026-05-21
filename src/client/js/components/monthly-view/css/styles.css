@@ -1,7 +1,7 @@
 .current-month-name {
     text-align: center;
 }
-.change-date {
+.monthly-change-date {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -110,13 +110,13 @@
     transform: none;
 }
 
-.content {
+.monthly-content {
     display: flex;
     flex-direction: row;
     gap: 16px;
 }
 
-.side-panel {
+.monthly-side-panel {
     flex: 1;
     max-width: 550px;
     background-color: #d5d3f5;
@@ -125,7 +125,7 @@
     padding: 10px;
 }
 
-.side-panel habit-list {
+.monthly-side-panel habit-list {
     width: 100%;
 }
 

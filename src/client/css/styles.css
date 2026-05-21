@@ -7,3 +7,12 @@ body {
     background: #BBC4E9;
     padding: 20px;
 }
+
+@media screen and (max-width:480px){
+
+    body{
+        padding:8px;
+        font-size:medium;
+    }
+
+}

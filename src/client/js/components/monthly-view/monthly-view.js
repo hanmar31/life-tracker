@@ -80,7 +80,7 @@ class MonthlyView extends HTMLElement {
     if (old) old.remove()
 
     const wrapper = document.createElement('div')
-    wrapper.classList.add('wrapper')
+    wrapper.classList.add('monthly-wrapper')
 
     const year = this._currentDate.getFullYear()
     const month = this._currentDate.toLocaleDateString('en', { month: 'long' })
@@ -103,7 +103,7 @@ class MonthlyView extends HTMLElement {
     nextBtn.textContent = 'Next month -->'
 
     const changeDateDiv = document.createElement('div')
-    changeDateDiv.classList.add('change-date')
+    changeDateDiv.classList.add('monthly-change-date')
     changeDateDiv.append(prevBtn, monthDiv, nextBtn)
 
     wrapper.appendChild(changeDateDiv)
@@ -275,16 +275,16 @@ class MonthlyView extends HTMLElement {
     })
 
     const sidePanel = document.createElement('div')
-    sidePanel.classList.add('side-panel')
+    sidePanel.classList.add('monthly-side-panel')
 
     const sidePanelTitle = document.createElement('h3')
-    sidePanelTitle.classList.add('side-panel-title')
+    sidePanelTitle.classList.add('monthly-side-panel-title')
     sidePanel.textContent = 'Monthly Habits'
 
     sidePanel.append(sidePanelTitle, monthList)
 
     const contentDiv = document.createElement('div')
-    contentDiv.classList.add('content')
+    contentDiv.classList.add('monthly-content')
     contentDiv.append(calendarGrid, weekColumn, sidePanel)
 
     wrapper.appendChild(contentDiv)

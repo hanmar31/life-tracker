@@ -50,6 +50,7 @@ class HabitItem extends HTMLElement {
     const li = document.createElement('li')
 
     const nameEl = document.createElement('span')
+    nameEl.classList.add('habit-name')
     const freqEl = document.createElement('span')
 
     freqEl.classList.add('badge')

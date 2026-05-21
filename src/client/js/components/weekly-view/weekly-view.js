@@ -80,7 +80,7 @@ class WeeklyView extends HTMLElement {
     if (old) old.remove()
 
     const wrapper = document.createElement('div')
-    wrapper.classList.add('wrapper')
+    wrapper.classList.add('weekly-wrapper')
 
     const daysOfWeek = this._currentDate.getDay()
     const daysFromMonday = (daysOfWeek + 6) % 7
@@ -120,7 +120,7 @@ class WeeklyView extends HTMLElement {
     nextBtn.textContent = 'Next week -->'
 
     const changeDateDiv = document.createElement('div')
-    changeDateDiv.classList.add('change-date')
+    changeDateDiv.classList.add('weekly-change-date')
     changeDateDiv.append(prevBtn, dateDiv, nextBtn)
 
     wrapper.appendChild(changeDateDiv)
@@ -182,7 +182,7 @@ class WeeklyView extends HTMLElement {
     })
 
     const sidePanel = document.createElement('div')
-    sidePanel.classList.add('side-panel')
+    sidePanel.classList.add('weekly-side-panel')
 
     const sidePanelTitle = document.createElement('h3')
     sidePanelTitle.textContent = 'Weekly Habits'
@@ -239,7 +239,7 @@ class WeeklyView extends HTMLElement {
 
     sidePanel.append(sidePanelTitle, weekList)
     const contentDiv = document.createElement('div')
-    contentDiv.classList.add('content')
+    contentDiv.classList.add('weekly-content')
     contentDiv.append(daysContainer, sidePanel)
     wrapper.appendChild(contentDiv)
     shadow.appendChild(wrapper)

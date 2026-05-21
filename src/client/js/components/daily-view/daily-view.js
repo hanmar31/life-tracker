@@ -80,7 +80,7 @@ class DailyView extends HTMLElement {
     if (old) old.remove()
 
     const wrapper = document.createElement('div')
-    wrapper.classList.add('wrapper')
+    wrapper.classList.add('daily-wrapper')
 
     const year = this._currentDate.getFullYear()
     const month = this._currentDate.toLocaleDateString('en', { month: 'long' })
@@ -113,7 +113,7 @@ class DailyView extends HTMLElement {
     nextBtn.textContent = 'Next day -->'
 
     const changeDateDiv = document.createElement('div')
-    changeDateDiv.classList.add('change-date')
+    changeDateDiv.classList.add('daily-change-date')
     changeDateDiv.append(prevBtn, dateDiv, nextBtn)
 
     const dailyList = document.createElement('habit-list')

@@ -1,10 +1,16 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
 *, *::before, *::after {
     box-sizing: border-box;
 }
+
 .current-date{
     text-align: center;
 }
-.change-date {
+.weekly-change-date {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -80,7 +86,7 @@
     opacity: 0.6;
 }
 
-.content {
+.weekly-content {
     display: flex;
     flex-direction: row;
     gap: 16px;
@@ -91,7 +97,7 @@
     font-size: 95%;
 }
 
-.side-panel {
+.weekly-side-panel {
     flex: 2;
     background-color: #d5d3f5;
     border: 1px solid #49447e;
@@ -111,10 +117,10 @@
     border-bottom: 1px solid #49447e;
 }
 
-.wrapper {
+.weekly-wrapper {
     padding: 0 16px 16px 16px;
     box-sizing: border-box;
-    width: 100%;
+    width:100%;
 }
 
 .daily-habit-list li {
@@ -126,4 +132,115 @@
 
 .daily-habit-list {
     list-style-type: circle;
+    padding-left: 20px;
+    padding-right: 10px;
+    margin: 8px 0 0 0;
+}
+
+@media screen and (max-width: 1600px) {
+    .weekly-side-panel{
+        max-width: 330px;
+    }
+
+    .daily-habit-list li {
+        font-size: 0.95rem;
+        padding: 2px 4px;
+    }
+}
+
+@media screen and (max-width: 1450px) {
+     .weekly-side-panel{
+        max-width: 350px;
+    }
+    .daily-habit-list li {
+        font-size: 0.85rem;
+        padding: 2px 3px;
+    }
+}
+
+@media screen and (max-width: 1380px) {
+    
+.weekly-content {
+    padding-right: 6px;
+}
+ .weekly-side-panel{
+        max-width: 370px;
+    }
+}
+
+@media screen and (max-width: 1340px) {
+    .weekly-content {
+        flex-direction: column;
+    }
+
+    .weekly-side-panel {
+        max-width: 100%;
+        width: 80%;
+    }
+
+    .days-container {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 1050px) {
+    .days-container {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .week-col {
+        flex: 1 1 calc(50% - 4px);
+        min-width: 140px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .weekly-change-date {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 4px;
+        width: 100%;
+    }
+
+    .prev-button, .next-button {
+        font-size: 0.8rem;
+        padding: 6px 6px;
+    }
+
+    .week-col {
+        flex: 1 1 100%;
+    }
+
+    .current-date{
+    font-size: 0.8rem;
+}
+}
+
+@media screen and (max-width: 450px) {
+    
+    .weekly-side-panel {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .current-date {
+        font-size: 0.8rem;
+    }
+
+      .prev-button, .next-button {
+        font-size: 0.6rem;
+    }
+}
+@media screen and (max-width: 375px) {
+    .current-date {
+        font-size: 0.75rem;
+    }
+
+      .prev-button, .next-button {
+        font-size: 0.55rem;
+    }
 }
