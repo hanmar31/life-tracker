@@ -9,6 +9,7 @@ import { loadCSS } from '../../utils/css-loader.js'
 import '../daily-view/index.js'
 import '../weekly-view/index.js'
 import '../monthly-view/index.js'
+import '../list-view/index.js'
 
 /**
  * Represents the main Habit App.
