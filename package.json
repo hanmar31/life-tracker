@@ -5,11 +5,18 @@
   "description": "To make it easy for you to get started with GitLab, here's a list of recommended next steps.",
   "main": "index.js",
   "scripts": {
-    "test": "node tests/habit.test.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
     "start": "node src/server/server.js",
     "dev": "nodemon src/server/server.js",
     "lint": "npx eslint ./src",
     "lint:fix": "npx eslint ./src --fix"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+    "/tests/e2e/"
+    ]
   },
   "repository": {
     "type": "git",
@@ -23,6 +30,7 @@
     "@playwright/test": "^1.60.0",
     "@types/node": "^25.9.1",
     "eslint": "^8.57.1",
+    "jest": "^30.4.2",
     "nodemon": "^3.1.14"
   },
   "dependencies": {
