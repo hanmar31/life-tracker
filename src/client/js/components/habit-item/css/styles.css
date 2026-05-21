@@ -2,8 +2,8 @@ li {
     display: flex;
     align-items: center;
     background: #9087BF;
-    padding: 10px;
-    margin-bottom: 5px;
+    padding: 6px 10px;
+    margin-bottom: 4px;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -21,14 +21,21 @@ li.done {
     opacity: 0.6;
 }
 
+.habit-name {
+    font-size: 1.1rem;
+    flex-shrink: 1;
+}
+
 .badge {
-    margin-left: 20px;
-    padding: 2px 10px;
+    margin-left: 10px;
+    margin-right: auto;
+    padding: 2px 6px;
     border-radius: 10px;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
 .daily {
@@ -70,13 +77,13 @@ li.done {
 }
 
 .button-div {
-margin-left: auto;
 display: flex;
 gap: 5px;
+flex-shrink: 0;
 }
 
 
-@media screen and (max-width: 1600px) {
+@media screen and (max-width: 1650px) {
     .button-div {
         margin-left: auto;
         flex-shrink: 0;
@@ -94,7 +101,7 @@ gap: 5px;
     }
 
     .habit-name {
-        font-size: 0.85rem;
+        font-size: 0.75rem;
     }
 }
 

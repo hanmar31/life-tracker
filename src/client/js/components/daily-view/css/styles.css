@@ -57,3 +57,42 @@
 .list-container {
     max-width: 88%;
 }
+
+@media screen and (max-width: 600px) {
+    .daily-change-date {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 4px;
+        width: 100%;
+    }
+
+    .prev-button, .next-button {
+        font-size: 0.8rem;
+        padding: 6px 6px;
+    }
+
+    .current-date{
+    font-size: 0.8rem;
+}
+}
+
+@media screen and (max-width: 400px) {
+    .current-date {
+        font-size: 0.8rem;
+    }
+
+      .prev-button, .next-button {
+        font-size: 0.6rem;
+    }
+}
+@media screen and (max-width: 375px) {
+    .current-date {
+        font-size: 0.75rem;
+    }
+
+      .prev-button, .next-button {
+        font-size: 0.55rem;
+    }
+}

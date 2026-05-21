@@ -103,7 +103,7 @@
     border: 1px solid #49447e;
     padding: 5px;
     border-radius: 5px;
-    max-width: 370px;
+    max-width: 390px;
 }
 
 .side-panel-title {
@@ -136,6 +136,8 @@
     padding-right: 10px;
     margin: 8px 0 0 0;
 }
+
+/* Media queries for responsive design. */
 
 @media screen and (max-width: 1600px) {
     .weekly-side-panel{
@@ -242,5 +244,12 @@
 
       .prev-button, .next-button {
         font-size: 0.55rem;
+    }
+}
+
+
+@media screen and (max-width: 350px) {
+    .current-date {
+        font-size: 0.65rem;
     }
 }

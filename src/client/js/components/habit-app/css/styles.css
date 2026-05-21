@@ -38,6 +38,7 @@ button:hover {
 
 .create-button {
     text-align: right;
+    margin-bottom: 10px;
 }
 
 select {

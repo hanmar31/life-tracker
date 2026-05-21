@@ -1,3 +1,12 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 .current-month-name {
     text-align: center;
 }
@@ -52,7 +61,8 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 4px;
-    flex: 4;
+    flex: 3;
+    min-width: 0;
 }
 
 .calendar-header {
@@ -77,6 +87,7 @@
     justify-content: center;
     position: relative;
     font-size: 0.9rem;
+    min-width: 0;
 }
 
 .day-number {
@@ -117,8 +128,8 @@
 }
 
 .monthly-side-panel {
-    flex: 1;
-    max-width: 550px;
+    flex: 2;
+    max-width: 420px;
     background-color: #d5d3f5;
     border: 1px solid #49447e;
     border-radius: 8px;
@@ -127,12 +138,16 @@
 
 .monthly-side-panel habit-list {
     width: 100%;
+    display: block;
+    overflow: hidden;
 }
 
 .week-column {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    flex: 0.5;
+    counter-reset: week-counter;
 }
 
 .week-column-header {
@@ -142,6 +157,7 @@
     background-color: #49447e;
     color: #f0f0f0;
     border-radius: 4px;
+    font-size: 0.9rem;
 }
 
 .week-cell {
@@ -154,8 +170,18 @@
     text-align: center;
     font-size: 1.2rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.week-cell::before {
+    counter-increment: week-counter;
+    content: "W" counter(week-counter);
+    font-size: 0.75rem;
+    font-weight: bold;
+    opacity: 0.7;
+    margin-bottom: 2px;
 }
 
 .week-cell:hover {
@@ -167,4 +193,172 @@
     box-shadow: 0 10px 15px -1px #686868;
     transform: translate(-10px);
     transition: all .2s;
+}
+
+/* Media queries for responsive design. */
+
+@media screen and (max-width: 1650px) and (min-width: 1340px) {
+    .monthly-side-panel {
+        max-width: 400px;
+        flex: 1.8,
+    }
+
+    .calendar-day, week-cell {
+        min-height: 85px;
+        font-size: 0.85rem;
+    }
+
+    .day-ratio {
+        font-size: 1.1rem;
+    }
+}
+@media screen and (max-width: 1340px) {
+    .monthly-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .monthly-side-panel {
+        max-width: 100%;
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .calendar-container-wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .calendar-day, .week-cell {
+        min-height: 65px;
+        padding: 4px;
+    }
+
+    .day-number {
+        font-size: 0.75rem;
+        top: 2px;
+        left: 4px;
+    }
+
+    .day-ratio, .week-cell {
+        font-size: 0.9rem;
+    }
+
+    .calendar-header, .week-column-header {
+        font-size: 0.75rem;
+        padding: 4px 2px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .calendar-day {
+        justify-content: space-between;
+        min-height: 50px;
+        padding: 4px 2px;
+    }
+
+    .week-cell {
+        justify-content: center;
+        min-height: 50px;
+        padding: 4px 2px;
+    }
+    .day-number {
+        position: static;
+        font-size: 0.7rem;
+        align-self: flex-start;
+        margin-left: 2px;
+    }
+
+    .day-ratio {
+        font-size: 0.75rem;
+        align-self: center;
+    }
+}
+
+
+@media  screen and (max-width: 600px) {
+    .monthly-change-date {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .current-month-name {
+        font-size: 0.9rem;
+        margin: 0;
+        flex: 1;
+        text-align: center;
+    }
+
+    .prev-button, .next-button {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .week-column-header {
+        font-size: 0.6rem;
+        padding: 4px 1px;
+    }
+
+    .calendar-day, .week-cell {
+        min-height: 40px;
+       font-size: 0.75rem;
+    }
+
+    .day-ratio {
+        font-size: 0.65rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100%;
+    }
+
+    .week-cell::before {
+        content:counter(week-counter);
+        font-size: 0.65rem;
+    }
+} 
+
+@media screen and (max-width: 450px){
+    .monthly-side-panel {
+        width: 100%;
+    }
+
+    .week-column-header {
+        font-size: 0.55rem;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .current-month-name {
+        font-size: 0.8rem;
+    }
+
+    .prev-button, .next-button {
+        font-size: 0.6rem;
+        padding: 6px 6px;
+    }
+
+   .calendar-day, .week-cell {
+    min-height: 36px;
+   }
+}
+
+@media screen and (max-width: 375px) {
+    .current-month-name {
+        font-size: 0.75rem;
+    }
+
+    .prev-button, .next-button {
+        font-size: 0.55rem;
+    }
 }
