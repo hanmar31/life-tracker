@@ -10,6 +10,7 @@ import '../daily-view/index.js'
 import '../weekly-view/index.js'
 import '../monthly-view/index.js'
 import '../list-view/index.js'
+import '../habit-edit-form/index.js'
 
 /**
  * Represents the main Habit App.
@@ -367,62 +368,23 @@ class HabitApp extends HTMLElement {
    * @param {ShadowRoot} wrapper the component's shadow root.
    */
   renderEditView (wrapper) {
-    const input = document.createElement('input')
-    input.value = this.editingHabit.name
+    const editForm = document.createElement('habit-edit-form')
+    editForm.habit = this.editingHabit
 
-    const select = document.createElement('select')
-    const options = ['daily', 'weekly', 'monthly']
-    options.forEach(value => {
-      const option = document.createElement('option')
-      option.value = value
-      option.textContent = value
-      if (value === this.editingHabit.frequency) {
-        option.selected = true
-      }
-      select.appendChild(option)
-    })
-
-    const saveBtn = document.createElement('button')
-    saveBtn.textContent = 'Save'
-
-    const cancelBtn = document.createElement('button')
-    cancelBtn.textContent = 'Cancel'
-
-    cancelBtn.addEventListener('click', () => {
+    editForm.addEventListener('go-back', () => {
       this.editingHabit = null
       this.view = 'daily'
       this.render()
     })
-
-    saveBtn.addEventListener('click', async (e) => {
-      const name = input.value.trim()
-
-      const existing = this.shadowRoot.querySelector('.error')
-      if (existing) existing.remove()
-
-      if (!name) {
-        const errMessage = document.createElement('p')
-        errMessage.textContent = 'Habit name cannot be empty'
-        errMessage.classList.add('error')
-        wrapper.appendChild(errMessage)
-        return errMessage
-      }
-
-      if (name.length > 30) {
-        const errMessage = document.createElement('p')
-        errMessage.textContent = 'Habit name cannot be longer than 30 characters'
-        errMessage.classList.add('error')
-        wrapper.appendChild(errMessage)
-        return errMessage
-      }
-      const res = await fetch(`/api/v1/habits/${this.editingHabit._id}`, {
+    editForm.addEventListener('update-habit', async (e) => {
+      const res = await fetch(`/api/v1/habits/${e.detail.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: input.value,
-          frequency: select.value
+          name: e.detail.name,
+          frequency: e.detail.frequency
         })
       })
       const updatedHabit = await res.json()
@@ -433,7 +395,7 @@ class HabitApp extends HTMLElement {
       this.render()
     })
 
-    wrapper.append(input, select, saveBtn, cancelBtn)
+    wrapper.appendChild(editForm)
   }
 
   /**

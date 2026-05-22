@@ -57,7 +57,7 @@ class HabitEditForm extends HTMLElement {
   render () {
     const shadow = this.shadowRoot
 
-    const old = shadow.querySelector('.wrapper')
+    const old = shadow.querySelector('.edit-wrapper')
     if (old) old.remove()
 
     if (!this._habit) return
@@ -66,7 +66,8 @@ class HabitEditForm extends HTMLElement {
     wrapper.classList.add('edit-wrapper')
 
     const input = document.createElement('input')
-    input.value = this.editingHabit.name
+    input.value = this._habit.name
+    this.input = input
 
     const select = document.createElement('select')
     const options = ['daily', 'weekly', 'monthly']
@@ -74,7 +75,7 @@ class HabitEditForm extends HTMLElement {
       const option = document.createElement('option')
       option.value = value
       option.textContent = value
-      if (value === this.editingHabit.frequency) {
+      if (value === this._habit.frequency) {
         option.selected = true
       }
       select.appendChild(option)

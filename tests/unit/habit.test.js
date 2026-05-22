@@ -10,7 +10,7 @@ describe('Habit logic', () => {
     expect(habit.frequency).toBe('daily')
   })
 
-  test('can mark daily habit complted', () => {
+  test('can mark daily habit completed', () => {
     const habit = {
       name: 'Exercise',
       frequency: 'daily',

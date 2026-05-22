@@ -1,0 +1,46 @@
+button {
+    background: #7871AA;
+    font-size: medium;
+    font-weight: bold;
+    color: #f0f0f0;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .2s, transform 0.2s; 
+}
+
+button:hover {
+    background: #656099;
+    transition: background .2s;
+    animation: wiggle 0.3s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(2deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-2deg); }
+    100% { transform: rotate(0deg); }
+}
+
+select {
+    background: #bbb4e9;
+    font-size: medium;
+}
+
+input {
+    background: #cac6e2;
+    font-size: medium;
+}
+
+.error {
+    color: rgba(161, 19, 19, 0.774);
+    font-weight: bolder;
+    font-size: small;
+    background: rgb(167, 164, 164);
+    padding: 5px;
+    margin-left: 2px;
+    border-radius: 20px;
+    box-shadow: 7px 13px 15px 0px rgb(146, 137, 163);
+}

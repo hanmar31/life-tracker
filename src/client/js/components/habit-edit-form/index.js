@@ -1,1 +1,1 @@
-import './edit-habit-form.js'
+import './habit-edit-form.js'
