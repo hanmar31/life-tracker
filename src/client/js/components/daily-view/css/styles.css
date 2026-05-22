@@ -58,6 +58,8 @@
     max-width: 88%;
 }
 
+/* Media queries for responsive design. */
+
 @media screen and (max-width: 600px) {
     .daily-change-date {
         display: flex;

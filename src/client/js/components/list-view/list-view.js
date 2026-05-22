@@ -30,6 +30,9 @@ class Listview extends HTMLElement {
     const style = document.createElement('style')
     style.textContent = css
     this.shadowRoot.appendChild(style)
+
+    this._ready = true
+    this.render()
   }
 
   /**
@@ -47,6 +50,80 @@ class Listview extends HTMLElement {
    */
   get habits () {
     return this._habits
+  }
+
+  /**
+   * Renders the list view.
+   */
+  render () {
+    const shadow = this.shadowRoot
+
+    const old = shadow.querySelector('.wrapper')
+    if (old) old.remove()
+
+    const wrapper = document.createElement('div')
+    wrapper.classList.add('daily-wrapper')
+
+    const dailyHabits = this._habits.filter(h => h.frequency === 'daily')
+    const weeklyHabits = this._habits.filter(h => h.frequency === 'weekly')
+    const monthlyHabits = this._habits.filter(h => h.frequency === 'monthly')
+
+    this.renderCategory(wrapper, 'Daily Habits', dailyHabits)
+    this.renderCategory(wrapper, 'Weekly Habits', weeklyHabits)
+    this.renderCategory(wrapper, 'Monthly Habits', monthlyHabits)
+
+    if (this._habits.length === 0) {
+      const emptyMessage = document.createElement('p')
+      emptyMessage.classList.add('empty-habit-list-text')
+      emptyMessage.textContent = 'No habits created yet. Click "Create Habit" to get started!'
+      wrapper.appendChild(emptyMessage)
+    }
+
+    shadow.appendChild(wrapper)
+  }
+
+  /**
+   * Renders a specific habit category with a heading and a habit list.
+   *
+   * @param {HTMLElement} wrapper - The container element where the category will be appended.
+   * @param {string} title - The title of the category heading (e.g., 'Daily Habits').
+   * @param {Array<object>} habits - The filtered list of habit objects belonging to this category.
+   * @returns {void}
+   */
+  renderCategory (wrapper, title, habits) {
+    if (habits.length === 0) return
+
+    const listHeading = document.createElement('h3')
+    listHeading.classList.add('list-heading')
+    listHeading.textContent = title
+
+    const list = document.createElement('habit-list')
+    list.habits = habits
+
+    list.addEventListener('toggle-habit', (e) => {
+      this.dispatchEvent(new CustomEvent('toggle-habit', {
+        detail: e.detail,
+        bubbles: true,
+        composed: true
+      }))
+    })
+
+    list.addEventListener('edit-habit', (e) => {
+      this.dispatchEvent(new CustomEvent('edit-habit', {
+        detail: e.detail,
+        bubbles: true,
+        composed: true
+      }))
+    })
+
+    list.addEventListener('delete-habit', (e) => {
+      this.dispatchEvent(new CustomEvent('delete-habit', {
+        detail: e.detail,
+        bubbles: true,
+        composed: true
+      }))
+    })
+    wrapper.append(listHeading, list)
   }
 }
 

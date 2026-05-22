@@ -3,12 +3,3 @@ ul {
     margin: 0;
 }
 
-@media screen and (max-width: 1600px) {
-    ul {
-        padding-left: 0;
-    }
-
-    li {
-        font-size: 0.85rem;
-    }
-}
