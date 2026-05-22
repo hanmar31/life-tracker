@@ -83,7 +83,7 @@ class HabitApp extends HTMLElement {
       this.renderMonthlyView(wrapper)
     } else if (this.view === 'edit') {
       this.renderEditView(wrapper)
-    } else {
+    } else if (this.view === 'list') {
       this.renderListView(wrapper)
     }
     shadow.appendChild(wrapper)
@@ -95,6 +95,13 @@ class HabitApp extends HTMLElement {
    * @param {HTMLElement} wrapper - The container element.
    */
   renderNavButtons (wrapper) {
+    const allButton = document.createElement('button')
+    allButton.textContent = 'All habits'
+
+    allButton.addEventListener('click', () => {
+      this.view = 'list'
+      this.render()
+    })
     const dailyBtn = document.createElement('button')
     dailyBtn.textContent = 'Today'
 
@@ -124,7 +131,7 @@ class HabitApp extends HTMLElement {
 
     const navBtns = document.createElement('div')
     navBtns.classList.add('nav-buttons')
-    navBtns.append(dailyBtn, weekBtn, monthBtn)
+    navBtns.append(allButton, dailyBtn, weekBtn, monthBtn)
 
     const createBtn = document.createElement('button')
     createBtn.textContent = 'Create Habit'
@@ -435,18 +442,18 @@ class HabitApp extends HTMLElement {
    * @param {ShadowRoot} wrapper the component's shadow root
    */
   renderListView (wrapper) {
-    const list = document.createElement('habit-list')
-    list.habits = this.habits
+    const listView = document.createElement('list-view')
+    listView.habits = this.habits
 
-    list.addEventListener('edit-habit', async (e) => {
+    listView.addEventListener('edit-habit', async (e) => {
       await this.handleEditHabit(e)
     })
 
-    const listContainer = document.createElement('div')
-    listContainer.classList.add('list-container')
-    listContainer.appendChild(list)
+    listView.addEventListener('delete-habit', async (e) => {
+      await this.handleDeleteHabit(e)
+    })
 
-    wrapper.appendChild(listContainer)
+    wrapper.appendChild(listView)
   }
 
   /**

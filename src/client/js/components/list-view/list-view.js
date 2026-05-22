@@ -62,7 +62,7 @@ class Listview extends HTMLElement {
     if (old) old.remove()
 
     const wrapper = document.createElement('div')
-    wrapper.classList.add('daily-wrapper')
+    wrapper.classList.add('list-wrapper')
 
     const dailyHabits = this._habits.filter(h => h.frequency === 'daily')
     const weeklyHabits = this._habits.filter(h => h.frequency === 'weekly')
@@ -100,13 +100,7 @@ class Listview extends HTMLElement {
     const list = document.createElement('habit-list')
     list.habits = habits
 
-    list.addEventListener('toggle-habit', (e) => {
-      this.dispatchEvent(new CustomEvent('toggle-habit', {
-        detail: e.detail,
-        bubbles: true,
-        composed: true
-      }))
-    })
+    list.dataset.readonly = 'true'
 
     list.addEventListener('edit-habit', (e) => {
       this.dispatchEvent(new CustomEvent('edit-habit', {

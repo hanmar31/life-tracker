@@ -21,6 +21,9 @@ li.done {
     opacity: 0.6;
 }
 
+:host([data-readonly="true"]) li {
+    cursor: default;
+}
 .habit-name {
     font-size: 1.1rem;
     flex-shrink: 1;
