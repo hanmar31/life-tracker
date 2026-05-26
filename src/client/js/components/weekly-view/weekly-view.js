@@ -141,6 +141,15 @@ class WeeklyView extends HTMLElement {
       const weekCol = document.createElement('div')
       weekCol.classList.add('week-col')
 
+      const today = new Date()
+      const isToday = day.getDate() === today.getDate() &&
+                      day.getMonth() === today.getMonth() &&
+                      day.getFullYear() === today.getFullYear()
+
+      if (isToday) {
+        weekCol.classList.add('today')
+      }
+
       const weekdayName = day.toLocaleDateString('en', {
         weekday: 'short'
       })
