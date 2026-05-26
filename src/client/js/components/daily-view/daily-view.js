@@ -127,8 +127,17 @@ class DailyView extends HTMLElement {
     listContainer.classList.add('list-container')
     listContainer.appendChild(dailyList)
 
+    const weekdayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    const currentWeekdayName = weekdayNames[this._currentDate.getDay()]
+
     dailyList.habits = this._habits
-      .filter(habit => habit.frequency === 'daily')
+      .filter(habit => {
+        if (habit.frequency === 'daily') return true
+        if (habit.frequency === 'specific') {
+          return habit.selectedDays && habit.selectedDays.includes(currentWeekdayName)
+        }
+        return false
+      })
       .map(habit => ({
         ...habit,
         completed: habit.completedDates.includes(todayKey)

@@ -56,8 +56,37 @@ class HabitForm extends HTMLElement {
       option.textContent = value
       select.appendChild(option)
     })
+    const specificOption = document.createElement('option')
+    specificOption.value = 'specific'
+    specificOption.textContent = 'specific days'
+    select.appendChild(specificOption)
 
     this.select = select
+
+    const daysContainer = document.createElement('div')
+    daysContainer.style.display = 'none'
+    daysContainer.classList.add('days-selector')
+    this.daysContainer = daysContainer
+
+    const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+    weekdays.forEach(day => {
+      const label = document.createElement('label')
+      const checkboxInput = document.createElement('input')
+      checkboxInput.type = 'checkbox'
+      checkboxInput.value = day
+
+      label.append(checkboxInput, `${day}`)
+      daysContainer.appendChild(label)
+    })
+
+    select.addEventListener('change', () => {
+      if (select.value === 'specific') {
+        daysContainer.style.display = 'block'
+      } else {
+        daysContainer.style.display = 'none'
+      }
+    })
 
     const button = document.createElement('button')
     button.textContent = 'Add'
@@ -69,11 +98,12 @@ class HabitForm extends HTMLElement {
 
     backBtn.addEventListener('click', () => {
       this.dispatchEvent(new CustomEvent('go-back', {
-        bubbles: true
+        bubbles: true,
+        composed: true
       }))
     })
 
-    wrapper.append(input, select, button, backBtn)
+    wrapper.append(input, select, daysContainer, button, backBtn)
     shadow.appendChild(wrapper)
   }
 
@@ -104,12 +134,20 @@ class HabitForm extends HTMLElement {
       return errMessage
     }
 
+    const checkedBoxes = this.daysContainer.querySelectorAll('input:checked')
+    const selectedDays = Array.from(checkedBoxes).map(cb => cb.value)
+
     this.dispatchEvent(new CustomEvent('create-habit', {
-      detail: { name, frequency },
-      bubbles: true
+      detail: { name, frequency, selectedDays },
+      bubbles: true,
+      composed: true
     }))
 
     this.input.value = ''
+
+    const allBoxes = this.daysContainer.querySelectorAll('input')
+    allBoxes.forEach(cb => { cb.checked = false })
+    this.daysContainer.style.display = 'none'
   }
 }
 

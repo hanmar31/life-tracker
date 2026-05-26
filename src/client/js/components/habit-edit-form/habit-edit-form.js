@@ -70,17 +70,49 @@ class HabitEditForm extends HTMLElement {
     this.input = input
 
     const select = document.createElement('select')
-    const options = ['daily', 'weekly', 'monthly']
+    const options = ['daily', 'weekly', 'monthly', 'specific']
     options.forEach(value => {
       const option = document.createElement('option')
       option.value = value
-      option.textContent = value
+      option.textContent = value === 'specific' ? 'specific days' : value
       if (value === this._habit.frequency) {
         option.selected = true
       }
       select.appendChild(option)
     })
     this.select = select
+
+    const daysContainer = document.createElement('div')
+    daysContainer.classList.add('days-selector')
+
+    daysContainer.style.display = this._habit.frequency === 'specific' ? 'block' : 'none'
+    this.daysContainer = daysContainer
+
+    const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+    const savedDays = this._habit.selectedDays || []
+
+    weekdays.forEach(day => {
+      const label = document.createElement('label')
+      const checkboxInput = document.createElement('input')
+      checkboxInput.type = 'checkbox'
+      checkboxInput.value = day
+
+      if (savedDays.includes(day)) {
+        checkboxInput.checked = true
+      }
+
+      label.append(checkboxInput, `${day}`)
+      daysContainer.appendChild(label)
+    })
+
+    select.addEventListener('change', () => {
+      if (select.value === 'specific') {
+        daysContainer.style.display = 'block'
+      } else {
+        daysContainer.style.display = 'none'
+      }
+    })
 
     const saveBtn = document.createElement('button')
     saveBtn.textContent = 'Save'
@@ -96,7 +128,7 @@ class HabitEditForm extends HTMLElement {
       }))
     })
 
-    wrapper.append(input, select, saveBtn, cancelBtn)
+    wrapper.append(input, select, daysContainer, saveBtn, cancelBtn)
     shadow.appendChild(wrapper)
   }
 
@@ -128,11 +160,15 @@ class HabitEditForm extends HTMLElement {
       return
     }
 
+    const checkedBoxes = this.daysContainer.querySelectorAll('input:checked')
+    const selectedDays = Array.from(checkedBoxes).map(cb => cb.value)
+
     this.dispatchEvent(new CustomEvent('update-habit', {
       detail: {
         id: this._habit._id,
         name,
-        frequency
+        frequency,
+        selectedDays
       },
       bubbles: true,
       composed: true

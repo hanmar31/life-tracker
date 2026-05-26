@@ -384,7 +384,8 @@ class HabitApp extends HTMLElement {
         },
         body: JSON.stringify({
           name: e.detail.name,
-          frequency: e.detail.frequency
+          frequency: e.detail.frequency,
+          selectedDays: e.detail.selectedDays
         })
       })
       const updatedHabit = await res.json()
@@ -434,7 +435,8 @@ class HabitApp extends HTMLElement {
         },
         body: JSON.stringify({
           name: e.detail.name,
-          frequency: e.detail.frequency
+          frequency: e.detail.frequency,
+          selectedDays: e.detail.selectedDays
         })
       })
 
