@@ -184,6 +184,15 @@ class MonthlyView extends HTMLElement {
       const cell = document.createElement('div')
       cell.classList.add('calendar-day')
 
+      const today = new Date()
+      const isToday = day === today.getDate() &&
+                      monthNumber === today.getMonth() &&
+                      year === today.getFullYear()
+
+      if (isToday) {
+        cell.classList.add('today')
+      }
+
       const dayKey = `${year}-${String(monthNumber + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
 
       const loopDate = new Date(year, monthNumber, day)
@@ -254,6 +263,19 @@ class MonthlyView extends HTMLElement {
       weekCell.classList.add('week-cell')
 
       const monday = new Date(year, monthNumber, 1 - firstDayOfWeek + (rowIndex * 7))
+
+      const today = new Date()
+
+      const nextMonday = new Date(monday)
+      nextMonday.setDate(monday.getDate() + 7)
+
+      const isCurrentWeek = today >= monday && today < nextMonday
+
+      if (isCurrentWeek) {
+        weekCell.classList.add('today-week')
+
+        rowCell.forEach(cell => cell.classList.add('week-row-current-highlight'))
+      }
 
       const mondayKey = [
         monday.getFullYear(),

@@ -109,6 +109,27 @@
     transition: all .2s;
 }
 
+
+.calendar-day.today .day-number {
+    font-size: 1.1rem;
+}
+
+.week-cell.today-week {
+    border: 3px solid #49447e;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.calendar-day.week-row-current-highlight {
+    border: 2px solid #49447e;
+}
+
+.calendar-day.today {
+    border: 3px solid #49447e;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
 .empty-day {
     border: 1px solid #5b5786;
     background-color: #cdc9f89a;
