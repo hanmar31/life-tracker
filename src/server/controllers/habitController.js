@@ -32,7 +32,7 @@ const sanitizeName = (name) => name.replace(/<[^>]*>/g, '').trim()
  * @returns {string|null} Validation error message or null if valid.
  */
 const validateHabit = (name, frequency) => {
-  const validFrequencies = ['daily', 'weekly', 'monthly']
+  const validFrequencies = ['daily', 'weekly', 'monthly', 'specific']
 
   const cleanName = sanitizeName(name)
 
@@ -43,7 +43,7 @@ const validateHabit = (name, frequency) => {
     return 'Habit name is too long'
   }
   if (!validFrequencies.includes(frequency)) {
-    return 'Frequency must be daily, weekly, or monthly'
+    return 'Frequency must be daily, weekly, monthly, or specific days'
   }
   return null
 }
@@ -56,7 +56,7 @@ const validateHabit = (name, frequency) => {
  */
 export const createHabit = async (req, res) => {
   try {
-    const { name, frequency } = req.body
+    const { name, frequency, selectedDays } = req.body
     const cleanName = sanitizeName(name)
 
     const error = validateHabit(cleanName, frequency)
@@ -64,7 +64,8 @@ export const createHabit = async (req, res) => {
 
     const habit = new Habit({
       name: cleanName,
-      frequency
+      frequency,
+      selectedDays: selectedDays || []
     })
 
     await habit.save()
@@ -89,7 +90,7 @@ export const editHabit = async (req, res) => {
     if (!mongoose.isValidObjectId(req.params.id)) {
       return res.status(400).json({ message: 'Invalid habit ID ' })
     }
-    const { name, frequency } = req.body
+    const { name, frequency, selectedDays } = req.body
     const cleanName = sanitizeName(name)
 
     const error = validateHabit(cleanName, frequency)
@@ -97,7 +98,7 @@ export const editHabit = async (req, res) => {
 
     const habit = await Habit.findByIdAndUpdate(
       req.params.id,
-      { name: cleanName, frequency },
+      { name: cleanName, frequency, selectedDays: selectedDays || [] },
       { returnDocument: 'after' }
     )
 
