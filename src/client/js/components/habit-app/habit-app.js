@@ -165,7 +165,7 @@ class HabitApp extends HTMLElement {
 
     let periodKey
 
-    if (habit.frequency === 'daily') {
+    if (habit.frequency === 'daily' || habit.frequency === 'specific') {
       periodKey = [
         current.getFullYear(),
         String(current.getMonth() + 1).padStart(2, '0'),

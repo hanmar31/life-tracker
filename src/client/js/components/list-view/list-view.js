@@ -68,7 +68,20 @@ class Listview extends HTMLElement {
     const weeklyHabits = this._habits.filter(h => h.frequency === 'weekly')
     const monthlyHabits = this._habits.filter(h => h.frequency === 'monthly')
 
+    const specificHabits = this._habits
+      .filter(h => h.frequency === 'specific')
+      .map(h => {
+        const daysText = h.selectedDays && h.selectedDays.length > 0
+          ? `(${h.selectedDays.join(', ')})`
+          : ' (No days selected)'
+        return {
+          ...h,
+          name: h.name + daysText
+        }
+      })
+
     this.renderCategory(wrapper, 'Daily Habits', dailyHabits)
+    this.renderCategory(wrapper, 'Specific Days Habits', specificHabits)
     this.renderCategory(wrapper, 'Weekly Habits', weeklyHabits)
     this.renderCategory(wrapper, 'Monthly Habits', monthlyHabits)
 

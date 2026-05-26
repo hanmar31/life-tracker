@@ -82,7 +82,7 @@ class HabitForm extends HTMLElement {
 
     select.addEventListener('change', () => {
       if (select.value === 'specific') {
-        daysContainer.style.display = 'block'
+        daysContainer.style.display = 'flex'
       } else {
         daysContainer.style.display = 'none'
       }

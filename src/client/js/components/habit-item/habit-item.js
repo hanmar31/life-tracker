@@ -57,7 +57,7 @@ class HabitItem extends HTMLElement {
     freqEl.classList.add(frequency)
 
     nameEl.textContent = name
-    freqEl.textContent = ` ${frequency} `
+    freqEl.textContent = frequency === 'specific' ? 'specific days' : ` ${frequency} `
 
     const editBtn = document.createElement('button')
     editBtn.textContent = 'Edit habit'

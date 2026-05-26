@@ -85,7 +85,7 @@ class HabitEditForm extends HTMLElement {
     const daysContainer = document.createElement('div')
     daysContainer.classList.add('days-selector')
 
-    daysContainer.style.display = this._habit.frequency === 'specific' ? 'block' : 'none'
+    daysContainer.style.display = this._habit.frequency === 'specific' ? 'flex' : 'none'
     this.daysContainer = daysContainer
 
     const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -108,7 +108,7 @@ class HabitEditForm extends HTMLElement {
 
     select.addEventListener('change', () => {
       if (select.value === 'specific') {
-        daysContainer.style.display = 'block'
+        daysContainer.style.display = 'flex'
       } else {
         daysContainer.style.display = 'none'
       }

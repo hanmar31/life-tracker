@@ -53,6 +53,10 @@ li.done {
     background: rgb(204, 171, 88);
 }
 
+.specific {
+    background: #bb8474;
+}
+
 .delete-btn {
     background: #7871AA;
     font-size: medium;
