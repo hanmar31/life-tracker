@@ -185,9 +185,19 @@ class MonthlyView extends HTMLElement {
       cell.classList.add('calendar-day')
 
       const dayKey = `${year}-${String(monthNumber + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-      const dailyHabits = this._habits.filter(h => h.frequency === 'daily')
-      const completedCount = dailyHabits.filter(h => h.completedDates.includes(dayKey)).length
-      const totalCount = dailyHabits.length
+
+      const loopDate = new Date(year, monthNumber, day)
+      const loopWeekdayName = loopDate.toLocaleDateString('en', { weekday: 'long' })
+
+      const activeHabitsForDay = this._habits.filter(h => {
+        if (h.frequency === 'daily') return true
+        if (h.frequency === 'specific') {
+          return h.selectedDays && h.selectedDays.includes(loopWeekdayName)
+        }
+        return false
+      })
+      const completedCount = activeHabitsForDay.filter(h => h.completedDates.includes(dayKey)).length
+      const totalCount = activeHabitsForDay.length
 
       const dayNumber = document.createElement('span')
       dayNumber.textContent = day
