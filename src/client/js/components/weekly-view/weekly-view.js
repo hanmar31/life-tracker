@@ -144,7 +144,17 @@ class WeeklyView extends HTMLElement {
       const weekdayName = day.toLocaleDateString('en', {
         weekday: 'short'
       })
-      const dailyHabits = this._habits.filter(habit => habit.frequency === 'daily')
+
+      const fullWeekdayName = day.toLocaleDateString('en', { weekday: 'long' })
+
+      const dailyHabits = this._habits.filter(habit => {
+        if (habit.frequency === 'daily') return true
+        if (habit.frequency === 'specific') {
+          return habit.selectedDays && habit.selectedDays.includes(fullWeekdayName)
+        }
+        return false
+      })
+
       const dailyHabitsList = document.createElement('ul')
       dailyHabitsList.classList.add('daily-habit-list')
 
