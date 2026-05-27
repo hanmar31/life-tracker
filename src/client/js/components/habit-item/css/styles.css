@@ -8,11 +8,13 @@ li {
     cursor: pointer;
 }
 
-li:hover {
+@media (hover: hover) {
+  li:hover {
     background: #7970A8;
     transition: background .2s;
     transform: translateY(-5px);
     box-shadow: 0 10px 15px -3px #686868;
+  }
 }
 
 

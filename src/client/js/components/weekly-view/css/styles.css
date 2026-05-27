@@ -27,10 +27,12 @@
     cursor: pointer;
     transition: background .2s, transform 0.2s; 
 }
- .prev-button:hover {
+ @media (hover: hover) {
+    .prev-button:hover {
     background: #656099;
-    animation: wiggle 0.3s ease-in-out infinite;
- }
+    animation: wiggle 0.3s ease-in-out infinite; 
+    }
+}
 
  @keyframes wiggle {
     0% { transform: rotate(0deg); }
@@ -52,9 +54,11 @@
     transition: background .2s, transform 0.2s; 
 }
 
-.next-button:hover {
-      background: #656099;
-    animation: wiggle 0.3s ease-in-out infinite;
+ @media (hover: hover) {
+    .next-button:hover {
+    background: #656099;
+    animation: wiggle 0.3s ease-in-out infinite; 
+    }
 }
 
 .days-container {

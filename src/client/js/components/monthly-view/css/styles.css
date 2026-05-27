@@ -27,10 +27,12 @@
     cursor: pointer;
     transition: background .2s, transform 0.2s; 
 }
- .prev-button:hover {
+ @media (hover: hover) {
+    .prev-button:hover {
     background: #656099;
-    animation: wiggle 0.3s ease-in-out infinite;
- }
+    animation: wiggle 0.3s ease-in-out infinite; 
+    }
+}
 
  @keyframes wiggle {
     0% { transform: rotate(0deg); }
@@ -52,9 +54,11 @@
     transition: background .2s, transform 0.2s; 
 }
 
-.next-button:hover {
+ @media (hover: hover) {
+    .next-button:hover {
     background: #656099;
-    animation: wiggle 0.3s ease-in-out infinite;
+    animation: wiggle 0.3s ease-in-out infinite; 
+    }
 }
 
 .calendar-grid {
@@ -102,11 +106,13 @@
     font-size: 1.2rem;
 }
 
-.calendar-day:hover {
-    background-color: #bbb4e9;
-    box-shadow: 0 10px 15px -3px #686868;
-    transform: translateY(-5px);
-    transition: all .2s;
+@media (hover: hover) {
+    .calendar-day:hover {
+        background-color: #bbb4e9;
+        box-shadow: 0 10px 15px -3px #686868;
+        transform: translateY(-5px);
+        transition: all .2s;
+    }
 }
 
 
@@ -205,8 +211,10 @@
     margin-bottom: 2px;
 }
 
-.week-cell:hover {
-    background-color: #bbb4e9;
+@media (hover: hover) {
+    .week-cell:hover {
+        background-color: #bbb4e9;
+    }
 }
 
 .week-row-highlight {

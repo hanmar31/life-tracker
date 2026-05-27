@@ -15,9 +15,12 @@ button {
     transition: background .2s, transform 0.2s; 
 }
 
-button:hover {
+
+@media (hover: hover) {
+    button:hover {
     background: #656099;
-    animation: wiggle 0.3s ease-in-out infinite;
+    animation: wiggle 0.3s ease-in-out infinite; 
+    }
 }
 
 @keyframes wiggle {
