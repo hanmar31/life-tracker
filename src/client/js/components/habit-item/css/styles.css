@@ -17,6 +17,15 @@ li {
   }
 }
 
+*:focus-visable {
+    outline: 3px solid #453e91;
+    outline-offset: 2px;
+}
+
+li:focus-visable {
+    background: #7970a8;
+}
+
 
 li.done {
     text-decoration: line-through;

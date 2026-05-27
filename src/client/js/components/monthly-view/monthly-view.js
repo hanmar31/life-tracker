@@ -106,6 +106,17 @@ class MonthlyView extends HTMLElement {
     changeDateDiv.classList.add('monthly-change-date')
     changeDateDiv.append(prevBtn, monthDiv, nextBtn)
 
+    changeDateDiv.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault()
+        if (shadow.activeElement === prevBtn) {
+          nextBtn.focus()
+        } else if (shadow.activeElement === nextBtn) {
+          prevBtn.focus()
+        }
+      }
+    })
+
     wrapper.appendChild(changeDateDiv)
 
     const monthList = document.createElement('habit-list')
@@ -183,6 +194,7 @@ class MonthlyView extends HTMLElement {
     for (let day = 1; day <= daysInMonth; day++) {
       const cell = document.createElement('div')
       cell.classList.add('calendar-day')
+      cell.setAttribute('tabindex', '0')
 
       const today = new Date()
       const isToday = day === today.getDate() &&
@@ -225,6 +237,15 @@ class MonthlyView extends HTMLElement {
           bubbles: true
         }))
       })
+
+      cell.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          this.dispatchEvent(new CustomEvent('navigate-to-date', {
+            detail: { date: new Date(year, monthNumber, day) },
+            bubbles: true
+          }))
+        }
+      })
       calendarGrid.appendChild(cell)
       currentWeekCells.push(cell)
       columnIndex++
@@ -261,6 +282,7 @@ class MonthlyView extends HTMLElement {
     weekRows.forEach((rowCell, rowIndex) => {
       const weekCell = document.createElement('div')
       weekCell.classList.add('week-cell')
+      weekCell.setAttribute('tabindex', '0')
 
       const monday = new Date(year, monthNumber, 1 - firstDayOfWeek + (rowIndex * 7))
 
@@ -293,6 +315,15 @@ class MonthlyView extends HTMLElement {
           detail: { date: monday },
           bubbles: true
         }))
+      })
+
+      weekCell.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          this.dispatchEvent(new CustomEvent('navigate-to-week', {
+            detail: { date: monday },
+            bubbles: true
+          }))
+        }
       })
       weekCell.addEventListener('mouseenter', () => {
         rowCell.forEach(cell => cell.classList.add('week-row-highlight'))

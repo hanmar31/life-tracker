@@ -92,6 +92,41 @@ class Listview extends HTMLElement {
       wrapper.appendChild(emptyMessage)
     }
 
+    wrapper.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        const lists = Array.from(wrapper.querySelectorAll('habit-list'))
+        const currentListIndex = lists.findIndex(list => list.shadowRoot.activeElement !== null)
+        if (currentListIndex === -1) return
+
+        const currentList = lists[currentListIndex]
+        const items = Array.from(currentList.shadowRoot.querySelectorAll('habit-item'))
+        const activeItem = items.find(item => item.shadowRoot.activeElement !== null)
+        if (!activeItem) return
+
+        const itemIndex = items.indexOf(activeItem)
+
+        if (e.key === 'ArrowDown' && itemIndex === items.length - 1) {
+          const nextList = lists[currentListIndex + 1]
+          if (nextList) {
+            e.preventDefault()
+            const firstItem = nextList.shadowRoot.querySelector('habit-item')
+            const li = firstItem?.shadowRoot.querySelector('li')
+            if (li) li.focus()
+          }
+        }
+        if (e.key === 'ArrowUp' && itemIndex === 0) {
+          const prevList = lists[currentListIndex - 1]
+          if (prevList) {
+            e.preventDefault()
+            const prevItems = Array.from(prevList.shadowRoot.querySelectorAll('habit-item'))
+            const lastItem = prevItems[prevItems.length - 1]
+            const li = lastItem?.shadowRoot.querySelector('li')
+            if (li) li.focus()
+          }
+        }
+      }
+    })
+
     shadow.appendChild(wrapper)
   }
 

@@ -65,6 +65,8 @@ class HabitEditForm extends HTMLElement {
     const wrapper = document.createElement('div')
     wrapper.classList.add('edit-wrapper')
 
+    const form = document.createElement('form')
+
     const input = document.createElement('input')
     input.value = this._habit.name
     this.input = input
@@ -115,10 +117,11 @@ class HabitEditForm extends HTMLElement {
     })
 
     const saveBtn = document.createElement('button')
+    saveBtn.type = 'submit'
     saveBtn.textContent = 'Save'
-    saveBtn.addEventListener('click', () => this.updateHabit())
 
     const cancelBtn = document.createElement('button')
+    cancelBtn.type = 'button'
     cancelBtn.textContent = 'Cancel'
 
     cancelBtn.addEventListener('click', () => {
@@ -128,7 +131,13 @@ class HabitEditForm extends HTMLElement {
       }))
     })
 
-    wrapper.append(input, select, daysContainer, saveBtn, cancelBtn)
+    form.addEventListener('submit', (e) => {
+      e.preventDefault()
+      this.updateHabit()
+    })
+
+    form.append(input, select, daysContainer, saveBtn, cancelBtn)
+    wrapper.appendChild(form)
     shadow.appendChild(wrapper)
   }
 

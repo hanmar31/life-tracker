@@ -43,6 +43,8 @@ class HabitForm extends HTMLElement {
     const wrapper = document.createElement('div')
     wrapper.classList.add('wrapper')
 
+    const form = document.createElement('form')
+
     const input = document.createElement('input')
     input.placeholder = 'New habit..'
     this.input = input
@@ -89,11 +91,11 @@ class HabitForm extends HTMLElement {
     })
 
     const button = document.createElement('button')
+    button.type = 'submit'
     button.textContent = 'Add'
 
-    button.addEventListener('click', () => this.createHabit())
-
     const backBtn = document.createElement('button')
+    backBtn.type = 'button'
     backBtn.textContent = 'Back'
 
     backBtn.addEventListener('click', () => {
@@ -103,7 +105,13 @@ class HabitForm extends HTMLElement {
       }))
     })
 
-    wrapper.append(input, select, daysContainer, button, backBtn)
+    form.addEventListener('submit', (e) => {
+      e.preventDefault()
+      this.createHabit()
+    })
+
+    form.append(input, select, daysContainer, button, backBtn)
+    wrapper.appendChild(form)
     shadow.appendChild(wrapper)
   }
 

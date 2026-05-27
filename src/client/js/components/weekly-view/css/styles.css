@@ -146,6 +146,16 @@
     margin: 8px 0 0 0;
 }
 
+*:focus-visable {
+    outline: 3px solid #453e91;
+    outline-offset: 2px;
+}
+
+li:focus-visable {
+    background: #7970a8;
+}
+
+
 /* Media queries for responsive design. */
 
 @media screen and (max-width: 1600px) {

@@ -146,7 +146,33 @@ class HabitApp extends HTMLElement {
     create.classList.add('create-button')
     create.appendChild(createBtn)
 
-    wrapper.append(navBtns, create)
+    const navContainer = document.createElement('div')
+    navContainer.classList.add('header-navigation')
+    navContainer.append(navBtns, create)
+
+    navContainer.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        // Hitta BARA knapparna som tillhör själva huvudmenyn
+        const buttons = Array.from(navContainer.querySelectorAll('button'))
+        const currentButton = this.shadowRoot.activeElement
+
+        const currentIndex = buttons.indexOf(currentButton)
+        if (currentIndex === -1) return
+
+        e.preventDefault()
+
+        let nextIndex = currentIndex
+        if (e.key === 'ArrowRight') {
+          nextIndex = currentIndex + 1 < buttons.length ? currentIndex + 1 : 0
+        } else if (e.key === 'ArrowLeft') {
+          nextIndex = currentIndex - 1 >= 0 ? currentIndex - 1 : buttons.length - 1
+        }
+
+        buttons[nextIndex].focus()
+      }
+    })
+
+    wrapper.appendChild(navContainer)
   }
 
   /**
@@ -206,6 +232,27 @@ class HabitApp extends HTMLElement {
     )
 
     this.render()
+
+    setTimeout(() => {
+      if (window.lastFocusedHabitId) {
+        const activeView = this.shadowRoot.querySelector('daily-view, weekly-view, monthly-view, list-view')
+
+        if (activeView) {
+          const habitList = activeView.shadowRoot.querySelector('habit-list')
+
+          if (habitList) {
+            const itemToFocus = habitList.shadowRoot.querySelector(`habit-item[data-id="${window.lastFocusedHabitId}"]`)
+
+            if (itemToFocus) {
+              const li = itemToFocus.shadowRoot.querySelector('li')
+
+              if (li) li.focus()
+            }
+          }
+        }
+        window.lastFocusedHabitId = null // Nollställ
+      }
+    }, 0)
   }
 
   /**

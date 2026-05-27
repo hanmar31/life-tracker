@@ -103,6 +103,41 @@ class HabitList extends HTMLElement {
       ul.appendChild(item)
     })
 
+    ul.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        const items = Array.from(ul.querySelectorAll('habit-item'))
+        const activeItem = items.find(item => item.shadowRoot.activeElement !== null)
+        if (!activeItem) return
+
+        const currentIndex = items.indexOf(activeItem)
+        if (currentIndex === -1) return
+
+        if (e.key === 'ArrowUp' && currentIndex === 0) {
+          e.preventDefault()
+          this.dispatchEvent(new CustomEvent('focus-parent-nav', {
+            bubbles: true,
+            composed: true
+          }))
+          return
+        }
+
+        if (e.key === 'ArrowDown' && currentIndex === items.length - 1) {
+          return
+        }
+
+        e.preventDefault()
+
+        let nextIndex = currentIndex
+        if (e.key === 'ArrowDown') {
+          nextIndex = currentIndex + 1 < items.length ? currentIndex + 1 : 0
+        } else if (e.key === 'ArrowUp') {
+          nextIndex = currentIndex - 1 >= 0 ? currentIndex - 1 : items.length - 1
+        }
+
+        const nextLi = items[nextIndex].shadowRoot.querySelector('li')
+        if (nextLi) nextLi.focus()
+      }
+    })
     wrapper.appendChild(ul)
     shadow.appendChild(wrapper)
   }

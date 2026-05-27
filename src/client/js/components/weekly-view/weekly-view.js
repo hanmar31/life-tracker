@@ -123,6 +123,17 @@ class WeeklyView extends HTMLElement {
     changeDateDiv.classList.add('weekly-change-date')
     changeDateDiv.append(prevBtn, dateDiv, nextBtn)
 
+    changeDateDiv.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault()
+        if (shadow.activeElement === prevBtn) {
+          nextBtn.focus()
+        } else if (shadow.activeElement === nextBtn) {
+          prevBtn.focus()
+        }
+      }
+    })
+
     wrapper.appendChild(changeDateDiv)
 
     const weekDays = []
@@ -140,6 +151,7 @@ class WeeklyView extends HTMLElement {
     weekDays.forEach(day => {
       const weekCol = document.createElement('div')
       weekCol.classList.add('week-col')
+      weekCol.setAttribute('tabindex', '0')
 
       const today = new Date()
       const isToday = day.getDate() === today.getDate() &&
@@ -197,6 +209,16 @@ class WeeklyView extends HTMLElement {
           bubbles: true
         }))
       })
+
+      weekCol.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          this.dispatchEvent(new CustomEvent('navigate-to-date', {
+            detail: { date: new Date(day) },
+            bubbles: true
+          }))
+        }
+      })
+
       weekCol.style.cursor = 'pointer'
     })
 

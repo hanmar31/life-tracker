@@ -224,6 +224,16 @@
     transition: all .2s;
 }
 
+*:focus-visable {
+    outline: 3px solid #453e91;
+    outline-offset: 2px;
+}
+
+li:focus-visable {
+    background: #7970a8;
+}
+
+
 /* Media queries for responsive design. */
 
 @media screen and (max-width: 1650px) and (min-width: 1340px) {

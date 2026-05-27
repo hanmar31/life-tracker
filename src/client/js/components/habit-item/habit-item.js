@@ -48,6 +48,7 @@ class HabitItem extends HTMLElement {
     const completed = this.dataset.completed === 'true'
 
     const li = document.createElement('li')
+    li.setAttribute('tabindex', '0')
 
     const nameEl = document.createElement('span')
     nameEl.classList.add('habit-name')
@@ -101,6 +102,22 @@ class HabitItem extends HTMLElement {
         detail: { id: (this.dataset.id) },
         bubbles: true
       }))
+    })
+
+    li.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        if (e.target.tagName === 'BUTTON') {
+          return
+        }
+        e.preventDefault()
+
+        window.lastFocusedHabitId = this.dataset.id
+
+        this.dispatchEvent(new CustomEvent('toggle-habit', {
+          detail: { id: (this.dataset.id) },
+          bubbles: true
+        }))
+      }
     })
 
     wrapper.appendChild(li)
