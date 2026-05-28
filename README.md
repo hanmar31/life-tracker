@@ -4,7 +4,7 @@
 Life Tracker is a habit tracking web application built with JavaScript, Web Components, Express, and MongoDB. The application allows users to create, manage, and track daily, weekly, and monthly habits through interactive calendar-based views.
 
 ## Repository Information
-This project was primarily developed and manages through GitLab during the course.
+This project was primarily developed and managed through GitLab during the course.
 
 GitLab was used for:
 - Issue tracking
@@ -16,7 +16,7 @@ GitLab was used for:
 A public GitHub repository is also available for:
 - Public source code access.
 - Deployment integration with Render.
-- Long-tem project availability.
+- Long-term project availability.
 
 The application is deployed and available online through Render.
 
@@ -46,7 +46,7 @@ Live Application:
 - Keyboard accessibility improvements.
 - Persistent data storage using MongoDB.
 - Automated testing.
-- CI/CD pipelien using GitLab.
+- CI/CD pipeline using GitLab.
 
 ## Technologies Used
 
@@ -101,7 +101,7 @@ The project follows a feature branch workflow.
     - Acts as an additional saftey branch containing a backup of the current stable verison of main.
 
 ### Feature Development
-Each new feature, improvment or bugfix is developed in its own seperate feature branch.
+Each new feature, improvement or bugfix is developed in its own separate feature branch.
 
 Examples:
     - feature/weekly-view
@@ -110,7 +110,7 @@ Examples:
 
 Features are only merged into main after:
 - The functionality works correctly.
-- Testing has been complted.
+- Testing has been completed.
 - No major regression are detected.
 
 Merged feature branches are deleted after integration to keep the repository clean and easier to maintain.
@@ -118,8 +118,8 @@ Merged feature branches are deleted after integration to keep the repository cle
 This workflow helps:
 - Isolate development work.
 - Reduce risk of breaking the stable application.
-- Simplifi debugging and code management.
-- Support safter expermentation during development.
+- Simplify debugging and code management.
+- Support safer experimentation during development.
 
 ## Automated Testing
 The project uses both unit testing and end-to-end testing. For more detailed information about testing, see TESTING.md.
@@ -133,8 +133,8 @@ Jest is used for unit testing isolated application logic such as:
 ### Playwright
 Playwright is used for browser-based end-to-end testing of important user flows such as:
 - Creating habits
-- Deleteing habits
-- Navigation adn rendering behavior
+- Deleting habits
+- Navigation and rendering behavior
 
 ## CI/CD Pipeline
 The project uses a CI/CD workflow with GitLab CI and Render.
@@ -143,7 +143,7 @@ The project uses a CI/CD workflow with GitLab CI and Render.
 GitLab CI automatically runs:
 - ESLint checks
 - Jest unit tests
-- Playwirght end-to-end tests.
+- Playwright end-to-end tests.
 
 The pipeline runs on every push and merge request to ensure code quality and application stability.
 
